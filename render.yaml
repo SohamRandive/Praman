@@ -1,0 +1,31 @@
+# Render Blueprint - one file, reproducible deploy. Same principle as `make
+# eval` reproducing every number in the README: the deploy configuration is
+# checked in and read by Render, not clicked together by hand in a dashboard.
+#
+# This deploys ONLY the console (web/) as a static site. There is no live
+# backend to deploy here: the evidence engine, adjudicator, agent mesh and
+# ring detector are a deterministic, offline pipeline (`make data`,
+# `make eval`, `make console-data`) whose output IS the JSON already built
+# into this site - cases.json, graph.json, metrics.json. Nothing server-side
+# runs at request time, so nothing server-side is declared here.
+#
+# Verified locally before committing: `rm -rf node_modules dist && npm ci &&
+# npm run build` (the exact commands below) produces dist/ cleanly from a
+# fresh checkout - not merely assumed to work.
+services:
+  - type: web
+    runtime: static
+    name: praman-console
+    rootDir: web
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    routes:
+      # Render serves an existing file at a path before applying any rewrite,
+      # so this does not touch /assets/*.js or /assets/*.css - only paths with
+      # no matching file fall back to index.html. The console has no
+      # client-side router today (view switches are in-memory state, not
+      # URL paths), so nothing exercises this yet; it costs nothing and saves
+      # a broken deploy the day a case gets a shareable URL.
+      - type: rewrite
+        source: /*
+        destination: /index.html

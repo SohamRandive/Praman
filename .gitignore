@@ -1,0 +1,57 @@
+# --- Assistant tooling: never commit -----------------------------------------
+# Working-memory and local assistant state stay on this machine. Nothing that
+# names a tool, a vendor or a model enters this repository.
+CLAUDE.md
+PROGRESS.md
+AGENTS.md
+.claude/
+.cursor/
+.cursorrules
+.aider*
+.github/copilot-instructions.md
+
+# --- Secrets -----------------------------------------------------------------
+# A rzp_test_ key in git history is an instant reject from a payments panel,
+# and rotating it afterwards does not remove it from history.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# --- Generated data ----------------------------------------------------------
+# The corpus is reproducible from a seed. Committing 17k rows of JSONL adds
+# nothing a reviewer cannot regenerate with one command, and buries the diff.
+data/corpus/
+eval/figures/*.png
+eval/runs/
+*.db
+*.sqlite3
+
+# --- Python ------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# --- Node / frontend ---------------------------------------------------------
+node_modules/
+web/dist/
+web/.vite/
+*.tsbuildinfo
+
+# --- Editor / OS -------------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp

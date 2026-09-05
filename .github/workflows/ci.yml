@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: lint
+        run: python3 -m ruff check praman data tests eval
+      - name: corpus reproduces from seed
+        run: make data
+      - name: matrix verified against the live documentation recently
+        run: make verify-matrix
+      - name: tests
+        run: make test
+      - name: no assistant or vendor attribution
+        run: make check-attribution

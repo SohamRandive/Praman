@@ -1,0 +1,11 @@
+# Phase 1 (generator) is stdlib-only by design, so the corpus is reproducible
+# on a bare interpreter with no dependency-version caveats.
+PyYAML>=6.0
+pytest>=8.0
+ruff>=0.6
+
+# Phase 3 onward.
+numpy>=1.26
+scikit-learn>=1.4
+lightgbm>=4.3
+matplotlib>=3.8

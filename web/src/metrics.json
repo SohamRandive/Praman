@@ -1,0 +1,151 @@
+{
+  "model": {
+    "pr_auc": 0.6609,
+    "pr_auc_target": 0.8,
+    "pr_auc_meets_target": false,
+    "roc_auc": 0.792,
+    "roc_auc_ceiling": 0.897,
+    "base_rate": 0.3598,
+    "features": 66,
+    "trees": 67
+  },
+  "calibration": {
+    "ece": 0.019,
+    "ece_uncalibrated": 0.019,
+    "ece_target": 0.05,
+    "selected": "none"
+  },
+  "economics": {
+    "cost_minor": 35000,
+    "cost": "₹350",
+    "t_star": 0.24,
+    "test_disputes": 4375,
+    "test_merchants": 25,
+    "policies": [
+      {
+        "key": "accept_all",
+        "label": "accept everything",
+        "net_minor": 0,
+        "net": "₹0",
+        "contested_share": 0.0,
+        "false_positive_cost_minor": 0,
+        "false_positive_cost": "₹0",
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      {
+        "key": "contest_all",
+        "label": "contest everything (t = 0)",
+        "net_minor": 891255502,
+        "net": "₹89,12,555",
+        "contested_share": 1.0,
+        "false_positive_cost_minor": 98035000,
+        "false_positive_cost": "₹9,80,350",
+        "precision": 0.3598,
+        "recall": 1.0
+      },
+      {
+        "key": "naive_half",
+        "label": "model, naive p > 0.5",
+        "net_minor": 504007887,
+        "net": "₹50,40,079",
+        "contested_share": 0.2469,
+        "false_positive_cost_minor": 12915000,
+        "false_positive_cost": "₹1,29,150",
+        "precision": 0.6583,
+        "recall": 0.4517
+      },
+      {
+        "key": "best_constant",
+        "label": "model, best constant t = 0.240",
+        "net_minor": 911144861,
+        "net": "₹91,11,449",
+        "contested_share": 0.6951,
+        "false_positive_cost_minor": 53410000,
+        "false_positive_cost": "₹5,34,100",
+        "precision": 0.4982,
+        "recall": 0.9625
+      },
+      {
+        "key": "expected_cost_rule",
+        "label": "model, expected-cost rule",
+        "net_minor": 940444942,
+        "net": "₹94,04,449",
+        "contested_share": 0.5134,
+        "false_positive_cost_minor": 39585000,
+        "false_positive_cost": "₹3,95,850",
+        "precision": 0.4964,
+        "recall": 0.7084
+      },
+      {
+        "key": "rule_plus_evidence_gate",
+        "label": "model + evidence gate",
+        "net_minor": 932425099,
+        "net": "₹93,24,251",
+        "contested_share": 0.4581,
+        "false_positive_cost_minor": 31535000,
+        "false_positive_cost": "₹3,15,350",
+        "precision": 0.5504,
+        "recall": 0.7008
+      }
+    ],
+    "rule_vs_best_constant_minor": 29300081,
+    "rule_vs_best_constant": "₹2,93,001",
+    "rule_vs_naive_half_minor": 436437055,
+    "rule_vs_naive_half": "₹43,64,371"
+  },
+  "ablations": [
+    {
+      "variant": "full model",
+      "auc": 0.792,
+      "net_minor": 940444942,
+      "cost_of_removing_minor": 0
+    },
+    {
+      "variant": "without network features",
+      "auc": 0.7608,
+      "net_minor": 939627319,
+      "cost_of_removing_minor": 817623
+    },
+    {
+      "variant": "without evidence features",
+      "auc": 0.7306,
+      "net_minor": 934517387,
+      "cost_of_removing_minor": 5927555
+    },
+    {
+      "variant": "without the expected-cost rule (best tuned constant t*)",
+      "auc": 0.792,
+      "net_minor": 911144861,
+      "cost_of_removing_minor": 29300081
+    }
+  ],
+  "rings": {
+    "split": "test",
+    "threshold": 0.767,
+    "precision_floor": 0.85,
+    "candidates": 45,
+    "flagged": 21,
+    "precision": 0.9375,
+    "recall": 0.7143,
+    "false_ring_rate": 0.0417,
+    "false_rings": 1,
+    "decoys": 24,
+    "network_feature_value_minor": 817623
+  },
+  "evidence": {
+    "split": "test",
+    "disputes": 4375,
+    "blocking_gap_rate": 0.3029,
+    "blocking_gap_count": 1325,
+    "routed_to_human_rate": 0.0322,
+    "routed_to_human_count": 141,
+    "sufficient_rate": 0.6971
+  },
+  "provenance": {
+    "seed": 20260904,
+    "corpus": "data/corpus",
+    "command": "make eval COST=35000",
+    "split": "held-out test"
+  }
+}

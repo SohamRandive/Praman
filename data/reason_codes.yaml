@@ -1,0 +1,579 @@
+# Reason-code evidence matrix
+#
+# Source: Razorpay Docs, "Submit Evidence" (Dispute Representment), and the
+# Disputes contest() API reference.
+#
+# PROVENANCE — read before trusting any row.
+#   real       reason codes, titles, and the flat list of suggested documents
+#   real       the contest() evidence field names in `evidence_fields` below
+#   judgement  the split of that flat list into `required` vs `supporting`.
+#              Razorpay publishes no required/optional distinction. This split
+#              moves completeness scores and therefore winnability, and is the
+#              single largest piece of our own opinion in this file.
+#   inferred   `network`, from code format. Verify before relying on it.
+#   none       no win-rate priors appear here. Priors are learned, never guessed.
+
+schema_version: 2
+
+# Provenance and verification. `make verify-matrix` (and CI) fails if
+# source_verified_on is absent or older than max_age_days - a matrix that
+# silently drifts from the documentation is worse than no matrix, because the
+# generator now derives `evidence_sufficient` from this file, so a misreading
+# here propagates into every downstream number without contradicting anything.
+source:
+  submit_evidence: https://razorpay.com/docs/payments/disputes/submit-evidence/
+  contest_api: https://razorpay.com/docs/api/disputes/contest/
+  source_verified_on: 2026-09-04
+  max_age_days: 30
+  verified_findings:
+    - The 11 evidence field names below are confirmed verbatim against the
+      contest() API reference, as is the others[] shape {type, document_ids}.
+    - "`action` accepts draft | submit. The reference describes draft as: \"does
+      not submit the dispute yet\". Hard-coding draft is therefore meaningful,
+      not decorative."
+    - RZP06 and RZP00 both specify "Customer communications over email (not
+      WhatsApp)" verbatim. The email_channel_only rule is published, not inferred.
+    - RZP05 distinguishes "Service/Product invoice if payment captured
+      successfully" from "Internal logs proving payment failed and no credit
+      received". branch_on_capture_status is published, not inferred.
+    - RZP06 says delivery "in committed timeline", supporting the
+      delivered_within_committed_sla warning.
+    - 1061 and RZP04 both say "Bank statement showing refund amount matching
+      payment", supporting refund_amount_matches_payment.
+  known_gaps:
+    - The documentation lists fraud and authorisation codes this matrix does not
+      model (Visa EMV/fraud, MC 4837/4840/4849/4870/4871/4808/4834, Amex
+      F*/A*/P*, RuPay 1104/1141/1142/1143/1121/1122/1123/1082/1083, RZP02/03/07).
+      They are out of scope - this product defends non-fraud service disputes -
+      but the omission is a coverage gap, not a claim that they do not exist.
+    - The docs group 1061 / 1062 / 1064 under both UPI and RuPay. This file
+      attributes them to rupay; a UPI-originated dispute carries the same code.
+
+scoring:
+  required_weight: 1.0
+  supporting_weight: 0.3
+  block_if_any_required_missing: true
+
+# The closed set of evidence fields accepted by contest(). Anything outside this
+# set must be carried as an `others[]` entry, addressed as `others.<type>`.
+evidence_fields:
+  - shipping_proof
+  - billing_proof
+  - cancellation_proof
+  - customer_communication
+  - proof_of_service
+  - explanation_letter
+  - refund_confirmation
+  - access_activity_log
+  - refund_cancellation_policy
+  - term_and_conditions
+  - others
+
+# Constraint predicates are structured, never eval'd strings.
+#   ops: lt lte gt gte eq ne in not_in all_gt is_true
+#   operand paths resolve against {dispute, payment, order, merchant} and bound
+#   artifacts by field name, e.g. "shipping_proof.delivered_at".
+#   on_missing_operand defaults to `unevaluated` — see ADR-008. A constraint
+#   whose operand the caller cannot supply is declared unknown, never passed.
+constraint_defaults:
+  on_missing_operand: unevaluated
+
+reason_codes:
+
+  # ---------------------------------------------------------------- Visa ----
+  "13.1":
+    network: visa
+    title: Merchandise/Services Not Received
+    verification:
+      status: deviates
+      note: >-
+        The docs page numbers Visa conditions 1-8 without the "13." category 
+        prefix ("1 - Merchandise/Services Not Received"). This file uses 
+        Visa's full condition numbering. Confirm against a live dispute 
+        payload before relying on the literal string; the evidence list 
+        itself matches.
+    required: [shipping_proof]
+    supporting: [proof_of_service, access_activity_log, customer_communication]
+    constraints:
+      - id: delivery_before_dispute
+        kind: cross_field
+        severity: blocking
+        source: inferred
+        basis: >-
+          The docs require delivery confirmation but do not state the
+          temporal test. Delivery after the dispute was raised cannot rebut
+          it, so the ordering is ours.
+        predicate: {op: lt, left: shipping_proof.delivered_at, right: dispute.created_at}
+        message: Delivery is not evidenced as completed before the dispute was raised.
+        remedy: Obtain carrier delivery confirmation dated before the dispute date.
+      - id: signature_strongly_preferred
+        kind: cross_field
+        severity: warn
+        source: published
+        basis: >-
+          Visa "Merchandise/Services Not Received" lists "Delivery
+          confirmation with signature".
+        predicate: {op: is_true, left: shipping_proof.signature_present}
+        message: Delivery proof carries no signature capture.
+        remedy: Request the signed proof of delivery from the carrier.
+
+  "13.2":
+    network: visa
+    title: Cancelled Recurring Transaction
+    required: [refund_cancellation_policy, access_activity_log]
+    supporting: [term_and_conditions, customer_communication]
+    constraints:
+      - id: policy_predates_transaction
+        kind: cross_field
+        severity: blocking
+        source: inferred
+        basis: >-
+          The docs list the cancellation policy as evidence but do not
+          require it to predate the transaction. A policy published
+          afterwards cannot bind the cardholder, so the test is ours.
+        predicate: {op: lt, left: refund_cancellation_policy.published_at, right: payment.created_at}
+        message: The cancellation policy was not published before the transaction.
+        remedy: Supply the policy version in force on the transaction date.
+
+  "13.3":
+    network: visa
+    title: Not as Described or Defective
+    required: [others.product_description]
+    supporting: [customer_communication, term_and_conditions, others.quality_control_record]
+    constraints: []
+
+  "13.4":
+    network: visa
+    title: Counterfeit Merchandise
+    required: [others.authenticity_certificate]
+    supporting: [others.supplier_verification, others.brand_authorisation, others.product_source_doc]
+    constraints: []
+
+  "13.5":
+    network: visa
+    title: Misrepresentation
+    required: [others.marketing_material, term_and_conditions]
+    supporting: [customer_communication]
+    constraints: []
+
+  "13.6":
+    network: visa
+    title: Credit Not Processed
+    verification:
+      status: judgement
+      note: >-
+        refund_amount_matches compares the refund to the disputed amount. 
+        The Visa entry lists "Refund processing proof" and "Credit 
+        timestamp" but does not state a matching requirement - that is 
+        carried over from the RuPay and Razorpay wording, which does state 
+        it.
+    required: [refund_confirmation]
+    supporting: [refund_cancellation_policy, others.return_log]
+    constraints:
+      - id: refund_amount_matches
+        kind: cross_field
+        severity: blocking
+        source: inferred
+        basis: >-
+          The Visa entry lists refund processing proof without a matching
+          requirement. Carried over from the RuPay and Razorpay wording,
+          which does state it.
+        predicate: {op: eq, left: refund_confirmation.amount_minor, right: dispute.amount_minor}
+        message: The evidenced refund amount does not match the disputed amount.
+        remedy: Supply the refund confirmation for the full disputed amount, or accept.
+
+  "13.7":
+    network: visa
+    title: Cancelled Merchandise/Services
+    required: [refund_cancellation_policy, shipping_proof]
+    supporting: [customer_communication, term_and_conditions]
+    constraints:
+      - id: shipped_before_cancellation_request
+        kind: cross_field
+        severity: blocking
+        source: inferred
+        basis: >-
+          The docs list "Order already processed/shipped" and "Cancellation
+          window missed" as evidence items. Formalising them as a timestamp
+          comparison is ours.
+        predicate: {op: lt, left: shipping_proof.shipped_at, right: dispute.cancellation_requested_at}
+        message: Shipment is not evidenced as dispatched before the cancellation request.
+        remedy: Supply the dispatch timestamp and the cancellation request timestamp.
+
+  "13.8":
+    network: visa
+    title: Original Credit Transaction Not Accepted
+    required: [others.oct_transaction_record]
+    supporting: [refund_confirmation, others.account_verification]
+    constraints: []
+
+  # ---------------------------------------------------------- Mastercard ----
+  "4841":
+    network: mastercard
+    title: Cancelled Recurring or Digital Goods
+    required: [refund_cancellation_policy, access_activity_log]
+    supporting: [term_and_conditions, customer_communication]
+    constraints: []
+
+  "4850":
+    network: mastercard
+    title: Installment Billing Dispute
+    required: [others.installment_agreement, billing_proof]
+    supporting: [customer_communication, term_and_conditions]
+    constraints: []
+
+  "4853":
+    network: mastercard
+    title: Cardholder Dispute
+    required: []
+    supporting: [shipping_proof, proof_of_service, customer_communication, term_and_conditions]
+    constraints: []
+    resolution:
+      strategy: classify_then_delegate
+      note: >-
+          Required evidence depends on the sub-claim. The narrative is classified
+          into a sibling code and that code's matrix is applied. Low confidence
+          routes to a human; the classification and its confidence are logged.
+      candidates: ["13.1", "13.3", "13.6", "13.7"]
+      min_confidence: 0.70
+      on_low_confidence: route_to_human
+
+  "4854":
+    network: mastercard
+    title: Cardholder Dispute - Not Elsewhere Classified
+    required: []
+    supporting: [shipping_proof, proof_of_service, customer_communication, term_and_conditions, billing_proof]
+    constraints: []
+    resolution:
+      strategy: classify_then_delegate
+      note: General proof of transaction, delivery, service or authorisation.
+      candidates: ["13.1", "13.3", "13.6", "13.7"]
+      min_confidence: 0.70
+      on_low_confidence: route_to_human
+
+  # --------------------------------------------------------- RuPay/NPCI ----
+  "1061":
+    network: rupay
+    title: Credit Not Processed
+    required: [refund_confirmation]
+    supporting: [refund_cancellation_policy, customer_communication, billing_proof]
+    constraints:
+      - id: refund_amount_matches_payment
+        kind: cross_field
+        severity: blocking
+        source: published
+        basis: >-
+          1061 and RZP04 both state "Bank statement showing refund amount
+          matching payment".
+        predicate: {op: eq, left: refund_confirmation.amount_minor, right: payment.amount_minor}
+        message: The evidenced refund does not match the captured payment amount.
+        remedy: Supply the refund confirmation matching the payment, or accept.
+
+  "1062":
+    network: rupay
+    title: Goods/Services Not As Described
+    required: [others.product_description, shipping_proof]
+    supporting: [customer_communication, refund_cancellation_policy]
+    constraints: []
+
+  "1064":
+    network: rupay
+    title: Goods/Services Not Received
+    required: [shipping_proof]
+    supporting: [proof_of_service, customer_communication, term_and_conditions]
+    constraints:
+      - id: delivery_before_dispute
+        kind: cross_field
+        severity: blocking
+        source: inferred
+        basis: >-
+          The docs require delivery confirmation but do not state the
+          temporal test. Delivery after the dispute was raised cannot rebut
+          it, so the ordering is ours.
+        predicate: {op: lt, left: shipping_proof.delivered_at, right: dispute.created_at}
+        message: Delivery is not evidenced as completed before the dispute was raised.
+        remedy: Obtain carrier delivery confirmation dated before the dispute date.
+
+  "1101":
+    network: rupay
+    title: Illegible Fulfilment
+    verification:
+      status: unpublished
+      note: >-
+        The docs give 1101, 1102 and 1103 an IDENTICAL evidence list and say 
+        nothing about legibility or OCR. legibility_check is entirely our 
+        invention, argued from the code's name: the code exists because the 
+        previous submission was unreadable, so resubmitting the same scan 
+        loses again. Defensible, cheap, and deterministic - but it is not a 
+        published requirement and must be described as ours.
+    required: [shipping_proof]
+    supporting: [proof_of_service, customer_communication, term_and_conditions]
+    constraints:
+      - id: legibility_check
+        kind: package_wide
+        severity: blocking
+        source: inferred
+        basis: >-
+          Entirely ours. The docs give 1101, 1102 and 1103 an identical
+          evidence list and say nothing about legibility or OCR. Argued from
+          the code's name: it exists because the previous submission was
+          unreadable.
+        predicate: {op: all_gt, left: artifact.ocr_confidence, right: 0.85}
+        message: >-
+          One or more artifacts fall below the legibility threshold. This code
+          exists because the previous submission was unreadable; resubmitting
+          the same scan loses again.
+        remedy: Rescan the flagged documents at higher resolution before assembly.
+
+  "1102":
+    network: rupay
+    title: Retrieval Request Not Fulfilled
+    required: [shipping_proof]
+    supporting: [proof_of_service, customer_communication, term_and_conditions]
+    constraints: []
+
+  "1103":
+    network: rupay
+    title: Invalid Fulfilment
+    required: [shipping_proof]
+    supporting: [proof_of_service, customer_communication, term_and_conditions]
+    constraints: []
+
+  # ------------------------------------------------------ American Express --
+  "C02":
+    network: amex
+    title: Credit Not Processed
+    required: [refund_confirmation]
+    supporting: [refund_cancellation_policy, others.return_log]
+    constraints: []
+
+  "C04":
+    network: amex
+    title: Goods/Services Returned or Refused
+    required: [others.return_log, refund_cancellation_policy]
+    supporting: [shipping_proof]
+    constraints: []
+
+  "C05":
+    network: amex
+    title: Goods/Services Cancelled
+    required: [refund_cancellation_policy, shipping_proof]
+    supporting: [customer_communication, term_and_conditions]
+    constraints:
+      - id: shipped_before_cancellation_request
+        kind: cross_field
+        severity: blocking
+        source: inferred
+        basis: >-
+          The docs list "Order already processed/shipped" and "Cancellation
+          window missed" as evidence items. Formalising them as a timestamp
+          comparison is ours.
+        predicate: {op: lt, left: shipping_proof.shipped_at, right: dispute.cancellation_requested_at}
+        message: Shipment is not evidenced as dispatched before the cancellation request.
+        remedy: Supply the dispatch timestamp and the cancellation request timestamp.
+
+  "C08":
+    network: amex
+    title: Goods/Services Not Received
+    required: [shipping_proof]
+    supporting: [proof_of_service, access_activity_log, customer_communication]
+    constraints:
+      - id: delivery_before_dispute
+        kind: cross_field
+        severity: blocking
+        source: inferred
+        basis: >-
+          The docs require delivery confirmation but do not state the
+          temporal test. Delivery after the dispute was raised cannot rebut
+          it, so the ordering is ours.
+        predicate: {op: lt, left: shipping_proof.delivered_at, right: dispute.created_at}
+        message: Delivery is not evidenced as completed before the dispute was raised.
+        remedy: Obtain carrier delivery confirmation dated before the dispute date.
+
+  "C14":
+    network: amex
+    title: Paid by Other Means
+    required: [billing_proof]
+    supporting: [customer_communication, others.order_record]
+    constraints: []
+
+  "C18":
+    network: amex
+    title: No Show
+    required: [term_and_conditions, others.reservation_confirmation]
+    supporting: [refund_cancellation_policy, customer_communication]
+    constraints: []
+
+  "C28":
+    network: amex
+    title: Cancellation of Recurring Goods/Services
+    required: [refund_cancellation_policy, access_activity_log]
+    supporting: [term_and_conditions, customer_communication]
+    constraints: []
+
+  "C31":
+    network: amex
+    title: Goods/Services Not As Described
+    required: [others.product_description]
+    supporting: [others.quality_control_record, customer_communication, term_and_conditions]
+    constraints: []
+
+  "C32":
+    network: amex
+    title: Goods/Services Damaged or Defective
+    required: [others.quality_control_record]
+    supporting: [shipping_proof, others.return_log]
+    constraints: []
+
+  "M01":
+    network: amex
+    title: Chargeback Authorisation
+    verification:
+      status: judgement
+      note: >-
+        The docs list "No prior agreement", "Chargeback authorisation 
+        invalid", "Documentation of dispute", "No consent given" - none of 
+        which maps cleanly to a contest() field. explanation_letter is our 
+        mapping.
+    required: [explanation_letter]
+    supporting: [customer_communication]
+    constraints: []
+    note: >-
+      Rarely winnable. If the merchant genuinely authorised the reversal the
+      correct recommendation is accept. Used as a regression test that the
+      adjudicator is not biased toward contesting.
+
+  "M10":
+    network: amex
+    title: Vehicle Rental - Capital Damages
+    required: [others.damage_documentation, others.rental_agreement]
+    supporting: [others.inspection_record, others.insurance_record]
+    constraints: []
+
+  "M49":
+    network: amex
+    title: Vehicle Rental - Theft or Loss of Use
+    required: [others.police_report, others.rental_agreement]
+    supporting: [others.insurance_record]
+    constraints: []
+
+  # ---------------------------------------------------- Razorpay internal ---
+  "RZP01":
+    network: razorpay
+    title: Goods/Services not Provided
+    required: [shipping_proof]
+    supporting: [proof_of_service, customer_communication, term_and_conditions]
+    constraints: []
+
+  "RZP04":
+    network: razorpay
+    title: Refund not Processed
+    required: [refund_confirmation]
+    supporting: [billing_proof, customer_communication, refund_cancellation_policy]
+    constraints:
+      - id: refund_amount_matches_payment
+        kind: cross_field
+        severity: blocking
+        source: published
+        basis: >-
+          1061 and RZP04 both state "Bank statement showing refund amount
+          matching payment".
+        predicate: {op: eq, left: refund_confirmation.amount_minor, right: payment.amount_minor}
+        message: The evidenced refund does not match the captured payment amount.
+        remedy: Supply the refund confirmation matching the payment, or accept.
+
+  "RZP05":
+    network: razorpay
+    title: Account Debited but No Confirmation
+    required: [billing_proof]
+    supporting: [access_activity_log, customer_communication, term_and_conditions]
+    constraints: []
+    resolution:
+      strategy: branch
+      note: >-
+          Forks on a fact already present on the payment object, so it needs no
+          model at all. The strongest pure-automation opportunity in the matrix.
+      branch_on: payment.captured   # not `on:` - YAML 1.1 parses that key as boolean true
+      branches:
+        "true":
+          argument: service_delivered
+          required: [billing_proof]
+          supporting: [access_activity_log, customer_communication]
+        "false":
+          argument: funds_not_received
+          required: [access_activity_log]
+          supporting: [billing_proof, customer_communication]
+
+  "RZP06":
+    network: razorpay
+    title: Business Not Responding
+    verification:
+      status: deviates
+      note: >-
+        The docs list all three documents without ranking them. This file 
+        demotes shipping_proof to supporting because requiring all three 
+        made 88% of these cases unwinnable on paperwork alone. That is a 
+        deliberate deviation from a flat list, not a reading of one. The 
+        email-not-WhatsApp rule IS published verbatim.
+    # JUDGEMENT: the documentation lists these as suggested documents without a
+    # required/optional split. "Business Not Responding" is a dispute about
+    # responsiveness, so the correspondence and the billing record carry the
+    # argument and delivery proof supports it. Requiring all three made 88% of
+    # RZP06 cases unwinnable on paperwork alone, which says more about our
+    # reading than about the merchants.
+    required: [billing_proof, customer_communication]
+    supporting: [shipping_proof, term_and_conditions]
+    constraints:
+      - id: email_channel_only
+        kind: field_qualifier
+        severity: blocking
+        source: published
+        basis: >-
+          RZP06 and RZP00 both state "Customer communications over email
+          (not WhatsApp)".
+        field: customer_communication
+        predicate: {op: in, left: artifact.channel, right: [email]}
+        message: >-
+          Support correspondence for this code must be email. The documentation
+          explicitly excludes WhatsApp, and a large share of Indian SMB support
+          lives there - a WhatsApp thread must be flagged non-qualifying, never
+          silently counted toward completeness.
+        remedy: Supply the email thread with the cardholder, or accept.
+      - id: delivered_within_committed_sla
+        kind: cross_field
+        severity: warn
+        source: published
+        basis: >-
+          RZP06 states "Proof of service/goods delivery in committed
+          timeline".
+        predicate: {op: lte, left: shipping_proof.delivered_at, right: order.sla_due_at}
+        message: Delivery fell outside the committed fulfilment SLA.
+        remedy: Expect the late delivery to be raised; address it in the narrative.
+
+  "RZP00":
+    network: razorpay
+    title: Not Available
+    # JUDGEMENT: the issuer supplies no reason, so the sub-claim drives the
+    # requirement. Only the billing record is required unconditionally.
+    required: [billing_proof]
+    supporting: [shipping_proof, customer_communication, refund_confirmation]
+    constraints:
+      - id: email_channel_only
+        kind: field_qualifier
+        severity: blocking
+        source: published
+        basis: >-
+          RZP06 and RZP00 both state "Customer communications over email
+          (not WhatsApp)".
+        field: customer_communication
+        predicate: {op: in, left: artifact.channel, right: [email]}
+        message: >-
+          Support correspondence for this code must be email; WhatsApp is
+          explicitly excluded and must be flagged non-qualifying.
+        remedy: Supply the email thread with the cardholder, or accept.
+    resolution:
+      strategy: classify_then_delegate
+      note: Reason not supplied by the issuer; classify from the narrative.
+      candidates: ["RZP01", "RZP04", "RZP05", "RZP06"]
+      min_confidence: 0.70
+      on_low_confidence: route_to_human

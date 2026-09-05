@@ -1,0 +1,2527 @@
+[
+  {
+    "case_id": "case_70aa6271a69bab065432",
+    "dispute_id": "disp_doOnZtDf5gc6aZ",
+    "merchant_id": "acc_zRPWM5HHaoYKSa",
+    "reason_code": "RZP06",
+    "resolved_code": "RZP06",
+    "title": "Business Not Responding",
+    "network": "razorpay",
+    "phase": "chargeback",
+    "amount_minor": 52190,
+    "amount": "₹522",
+    "contest_cost": "₹350",
+    "below_cost": false,
+    "created_at": "2026-01-05T15:10:47.119472+05:30",
+    "respond_by": "2026-01-23T22:33:39.269143+05:30",
+    "observed_at": "2026-01-16T23:25:13.143408+05:30",
+    "deadline": {
+      "days": 6,
+      "hours": 23,
+      "total_hours": 167.14,
+      "window_hours": 439.38,
+      "elapsed": 0.6196,
+      "expired": false,
+      "critical": false,
+      "at_risk": false,
+      "display": "6d 23h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "billing_proof",
+          "label": "billing or transaction record",
+          "required": true,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "customer_communication",
+          "label": "correspondence with the cardholder",
+          "required": true,
+          "present": false,
+          "unavailable": false
+        },
+        {
+          "field": "shipping_proof",
+          "label": "proof of delivery",
+          "required": false,
+          "present": false,
+          "unavailable": false
+        },
+        {
+          "field": "term_and_conditions",
+          "label": "published terms and conditions",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        }
+      ],
+      "required_total": 2,
+      "required_met": 1,
+      "completeness": 0.5,
+      "required_coverage": 0.5,
+      "sufficient": false,
+      "routing": "blocked",
+      "gaps": [
+        {
+          "name": "The correspondence with the cardholder on file does not qualify for RZP06 (email_channel_only).",
+          "remedy": ""
+        }
+      ],
+      "resolution_note": ""
+    },
+    "constraints": [
+      {
+        "id": "email_channel_only",
+        "severity": "blocking",
+        "source": "published",
+        "message": "Support correspondence for this code must be email. The documentation explicitly excludes WhatsApp, and a large share of Indian SMB support lives there - a WhatsApp thread must be flagged non-qualifying, never silently counted toward completeness.",
+        "remedy": "Supply the email thread with the cardholder, or accept.",
+        "status": "not_applicable"
+      },
+      {
+        "id": "delivered_within_committed_sla",
+        "severity": "warn",
+        "source": "published",
+        "message": "Delivery fell outside the committed fulfilment SLA.",
+        "remedy": "Expect the late delivery to be raised; address it in the narrative.",
+        "status": "unevaluated"
+      }
+    ],
+    "rejections": [
+      {
+        "field": "customer_communication",
+        "label": "correspondence with the cardholder",
+        "constraint_id": "email_channel_only"
+      }
+    ],
+    "recommendation": {
+      "action": "accept",
+      "p_win": 0.112604,
+      "break_even": 0.670627,
+      "expected_value": "-₹291",
+      "expected_value_minor": -29123,
+      "cost": "₹350",
+      "rationale": "Accept. The package cannot be assembled: The correspondence with the cardholder on file does not qualify for RZP06 (email_channel_only). Contesting without the required evidence spends Rs 350 to lose the same Rs 522.",
+      "overrides": [
+        "evidence_insufficient"
+      ],
+      "comparable": null
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "failed",
+        "confidence": 0.0,
+        "errors": [
+          "RuntimeError: vector index unavailable"
+        ]
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.425911+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "e94225aa16cd9c4161212a493e759c5fbf40f2087a89bd5711f84646e57b009d",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "ebaa2547b917a367653360296d7d509f95302daafccaf7108c35c74103fcbf46"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.426148+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "2bca8ebd13ea33184bff0933ab79c92d1a014f7da8ac2a803425d49ba3007e41",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "ebaa2547b917a367653360296d7d509f95302daafccaf7108c35c74103fcbf46",
+        "record_hash": "17fea427ff5958a2b09b269da7cce2c22ccd87dce9aeedb18f3de19aad8665c4"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.426535+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "17fea427ff5958a2b09b269da7cce2c22ccd87dce9aeedb18f3de19aad8665c4",
+        "record_hash": "17e24c5115ed4ee2d2f5bb6c5a861dab8ce67d2e2b73f994630480bd504def66"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.426574+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "17e24c5115ed4ee2d2f5bb6c5a861dab8ce67d2e2b73f994630480bd504def66",
+        "record_hash": "98646d083a2d61089cafcd59262a49b6159d6e5c6ff5401ede684b4ac9a0f44c"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.426594+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "10abdb08b2e9504c2d0151aa6c20e699632c9bd153b1e9e28d45db6de174a69e",
+        "prev_hash": "98646d083a2d61089cafcd59262a49b6159d6e5c6ff5401ede684b4ac9a0f44c",
+        "record_hash": "6cb8238e0a9839cf5e7ff7b41bba0e5fdd533420e848097282416ba191414810"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.426611+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "6cb8238e0a9839cf5e7ff7b41bba0e5fdd533420e848097282416ba191414810",
+        "record_hash": "bd4467db9b8f4382d50a1c9f04a0212f44acc2029bd014d728e901442963652d"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.426627+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "bd4467db9b8f4382d50a1c9f04a0212f44acc2029bd014d728e901442963652d",
+        "record_hash": "78be077410e2aeff54b1ea2dea9ab87aa6450ba9c64aba7f09123bd11ffedc16"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.426723+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "0187dbfa8303b9fddc6ab333b2296d644e0cee1c3b85bbc37147f66ef8fc1fce",
+        "outputs_hash": "bcb87670cd63a6ff79c2264d8efc21cae6ed08484465ff0b7591e1b0124e0e7e",
+        "prev_hash": "78be077410e2aeff54b1ea2dea9ab87aa6450ba9c64aba7f09123bd11ffedc16",
+        "record_hash": "39963d3c9b8c55c0bcd4c9bd5feca283cac1cff2182a822bace650c8a9a9efd0"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "blocked - WhatsApp refused",
+    "merchant_archetype": "food_delivery"
+  },
+  {
+    "case_id": "case_bc444d34c2b6cfc45b82",
+    "dispute_id": "disp_iSEsgP98Ax0ou6",
+    "merchant_id": "acc_ZMFg1LFxuDwtXY",
+    "reason_code": "13.1",
+    "resolved_code": "13.1",
+    "title": "Merchandise/Services Not Received",
+    "network": "visa",
+    "phase": "chargeback",
+    "amount_minor": 985538,
+    "amount": "₹9,855",
+    "contest_cost": "₹350",
+    "below_cost": false,
+    "created_at": "2026-01-05T13:08:19.597965+05:30",
+    "respond_by": "2026-01-16T22:44:53.771264+05:30",
+    "observed_at": "2026-01-15T06:06:03.036879+05:30",
+    "deadline": {
+      "days": 1,
+      "hours": 16,
+      "total_hours": 40.65,
+      "window_hours": 273.61,
+      "elapsed": 0.8514,
+      "expired": false,
+      "critical": false,
+      "at_risk": true,
+      "display": "1d 16h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "shipping_proof",
+          "label": "proof of delivery",
+          "required": true,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "proof_of_service",
+          "label": "proof the service was rendered",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "access_activity_log",
+          "label": "account access or usage log",
+          "required": false,
+          "present": false,
+          "unavailable": false
+        },
+        {
+          "field": "customer_communication",
+          "label": "correspondence with the cardholder",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        }
+      ],
+      "required_total": 1,
+      "required_met": 1,
+      "completeness": 0.842105,
+      "required_coverage": 1.0,
+      "sufficient": true,
+      "routing": "assemble",
+      "gaps": [],
+      "resolution_note": ""
+    },
+    "constraints": [
+      {
+        "id": "delivery_before_dispute",
+        "severity": "blocking",
+        "source": "inferred",
+        "message": "Delivery is not evidenced as completed before the dispute was raised.",
+        "remedy": "Obtain carrier delivery confirmation dated before the dispute date.",
+        "status": "not_applicable"
+      },
+      {
+        "id": "signature_strongly_preferred",
+        "severity": "warn",
+        "source": "published",
+        "message": "Delivery proof carries no signature capture.",
+        "remedy": "Request the signed proof of delivery from the carrier.",
+        "status": "not_applicable"
+      }
+    ],
+    "rejections": [],
+    "recommendation": {
+      "action": "contest",
+      "p_win": 0.511797,
+      "break_even": 0.035514,
+      "expected_value": "₹4,694",
+      "expected_value_minor": 469395,
+      "cost": "₹350",
+      "rationale": "Contest. Comparable cases: 675 of 1519 won. P(win) 0.51, calibrated. At Rs 9,855 disputed against Rs 350 contest cost, the break-even probability is 0.036. Expected value of contesting: Rs 4,694.",
+      "overrides": [],
+      "comparable": [
+        675,
+        1519
+      ]
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.427266+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "9976b3d1d7988b45b86025f267ef259f96c74c8b0fe89753bc36b6220e5dd7bd",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "92ebee630fea5c02a0259a61be772b1f3c072f463ff299619c1251ea9558896a"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.427302+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "03269a4b26aa7f19025fd7ce8cb2a9a59a2d7779017ace90ff28717f5d8439b4",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "92ebee630fea5c02a0259a61be772b1f3c072f463ff299619c1251ea9558896a",
+        "record_hash": "446b9da125b2657fa80e71eeef36a2caaa5f5f45eaad1554a4e78f52b8443501"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.427490+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "446b9da125b2657fa80e71eeef36a2caaa5f5f45eaad1554a4e78f52b8443501",
+        "record_hash": "989adcb73c4a4dd11f303f9177fe4219712fddf01547880990b0ae5a51d74f11"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.427511+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "989adcb73c4a4dd11f303f9177fe4219712fddf01547880990b0ae5a51d74f11",
+        "record_hash": "7cf0b5ef32e01c9bc2d43008ec122f40efac0af4f73b4b9932be01ff84e0ee95"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.427526+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "7cf0b5ef32e01c9bc2d43008ec122f40efac0af4f73b4b9932be01ff84e0ee95",
+        "record_hash": "efc4ef60e3d7aef993658221616aaa1b4bb7cfd749a6bd743cffa80f08e68cad"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.427540+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "efc4ef60e3d7aef993658221616aaa1b4bb7cfd749a6bd743cffa80f08e68cad",
+        "record_hash": "b8012a15b5a53ed49d0cd7be1bd15969d4573408beb2cfaf0a79cc8ca339b2a8"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.427554+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "b8012a15b5a53ed49d0cd7be1bd15969d4573408beb2cfaf0a79cc8ca339b2a8",
+        "record_hash": "b3f75a532180746bff0d4bbe98d483694c4791f08cf03002f87fd95f0c1460be"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.427609+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "bd411e30ad23a2c9012f1760c6cd34814b7281c59cc1fb83c324f7d919470522",
+        "outputs_hash": "1bd4e28bb0b6ceacc5e67883ad136f658cb4ac9ae8a7916015e8faade6db288c",
+        "prev_hash": "b3f75a532180746bff0d4bbe98d483694c4791f08cf03002f87fd95f0c1460be",
+        "record_hash": "425e98543e7183725a592415321bb3a4f641c8d1e68fc4ed3520f402bde7461a"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "clean contest",
+    "merchant_archetype": "d2c_apparel"
+  },
+  {
+    "case_id": "case_c6fa68fdae7afb6f3b56",
+    "dispute_id": "disp_YawSifEv7k2bWp",
+    "merchant_id": "acc_4bNF2vk227W9Z1",
+    "reason_code": "13.1",
+    "resolved_code": "13.1",
+    "title": "Merchandise/Services Not Received",
+    "network": "visa",
+    "phase": "chargeback",
+    "amount_minor": 1097616,
+    "amount": "₹10,976",
+    "contest_cost": "₹350",
+    "below_cost": false,
+    "created_at": "2026-01-05T17:12:09.600375+05:30",
+    "respond_by": "2026-01-12T17:47:49.416753+05:30",
+    "observed_at": "2026-01-09T11:05:01.355282+05:30",
+    "deadline": {
+      "days": 3,
+      "hours": 6,
+      "total_hours": 78.71,
+      "window_hours": 168.59,
+      "elapsed": 0.5331,
+      "expired": false,
+      "critical": false,
+      "at_risk": false,
+      "display": "3d 06h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "shipping_proof",
+          "label": "proof of delivery",
+          "required": true,
+          "present": false,
+          "unavailable": false
+        },
+        {
+          "field": "proof_of_service",
+          "label": "proof the service was rendered",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "access_activity_log",
+          "label": "account access or usage log",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "customer_communication",
+          "label": "correspondence with the cardholder",
+          "required": false,
+          "present": false,
+          "unavailable": false
+        }
+      ],
+      "required_total": 1,
+      "required_met": 0,
+      "completeness": 0.315789,
+      "required_coverage": 0.0,
+      "sufficient": false,
+      "routing": "blocked",
+      "gaps": [
+        {
+          "name": "No proof of delivery.",
+          "remedy": ""
+        }
+      ],
+      "resolution_note": ""
+    },
+    "constraints": [
+      {
+        "id": "delivery_before_dispute",
+        "severity": "blocking",
+        "source": "inferred",
+        "message": "Delivery is not evidenced as completed before the dispute was raised.",
+        "remedy": "Obtain carrier delivery confirmation dated before the dispute date.",
+        "status": "not_applicable"
+      },
+      {
+        "id": "signature_strongly_preferred",
+        "severity": "warn",
+        "source": "published",
+        "message": "Delivery proof carries no signature capture.",
+        "remedy": "Request the signed proof of delivery from the carrier.",
+        "status": "not_applicable"
+      }
+    ],
+    "rejections": [],
+    "recommendation": {
+      "action": "accept",
+      "p_win": 0.047341,
+      "break_even": 0.031887,
+      "expected_value": "₹170",
+      "expected_value_minor": 16962,
+      "cost": "₹350",
+      "rationale": "Accept. The package cannot be assembled: No proof of delivery. Contesting without the required evidence spends Rs 350 to lose the same Rs 10,976.",
+      "overrides": [
+        "evidence_insufficient"
+      ],
+      "comparable": [
+        11,
+        341
+      ]
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.427968+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "4a7836bd27d305e49c5fd49b9d727f7d1eff05404193b510c891c3a282a7b541",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "0b533157e214cbaadcb99c77227561266e68b4a4c51575e5c79c7f6e076b413f"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.427997+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "cf46eaa76b897f0a4444500d516ea7c93ff2b5a852dbad5b9d5ba71bd53f415b",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "0b533157e214cbaadcb99c77227561266e68b4a4c51575e5c79c7f6e076b413f",
+        "record_hash": "0fe7211c5420dce4d0f9358141cdde4f842550b0c921a9565dff157d744f75c5"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428164+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "0fe7211c5420dce4d0f9358141cdde4f842550b0c921a9565dff157d744f75c5",
+        "record_hash": "208db2005daee4ac02e28de099a97fb466c8f38d985e41b2d77eb37e9751ffcc"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428189+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "208db2005daee4ac02e28de099a97fb466c8f38d985e41b2d77eb37e9751ffcc",
+        "record_hash": "8d1c8e5b3490fb18fa6cd2109d801472bb37ba0ab99101815f0328e2776ce6bb"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428204+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "8d1c8e5b3490fb18fa6cd2109d801472bb37ba0ab99101815f0328e2776ce6bb",
+        "record_hash": "f0824a421d36e7df583b3a814ff3f41be99c299b5d208a5fee0737db985a8a64"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428219+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "f0824a421d36e7df583b3a814ff3f41be99c299b5d208a5fee0737db985a8a64",
+        "record_hash": "54464734ca07825b8ddbacf6603609af45e53715b80d45e2b68fc51a290a7099"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428241+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "54464734ca07825b8ddbacf6603609af45e53715b80d45e2b68fc51a290a7099",
+        "record_hash": "b1addb43196e2a2a8bd03b85c71ccae20bd411f8576a3edca844e3831b1111e1"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428284+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "b35d3b2bfdea09beb2fd048588c28fbf3e5be94b2512ce4eb2c40e1bc4ab375d",
+        "outputs_hash": "a5916a493154ead93b02ae781653b07cda70c2ac4570a6536ea2d0f21cb5cae8",
+        "prev_hash": "b1addb43196e2a2a8bd03b85c71ccae20bd411f8576a3edca844e3831b1111e1",
+        "record_hash": "e9f6407650401f9924e96f9f5dca9da5866b34757fbb3112ff5de2499d67c807"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "blocked - missing document",
+    "merchant_archetype": "thin_records_smb"
+  },
+  {
+    "case_id": "case_44efcce1a0acf6630abf",
+    "dispute_id": "disp_jNLs2nluH8CXxx",
+    "merchant_id": "acc_9R3Yudph8ZVo52",
+    "reason_code": "4853",
+    "resolved_code": "4853",
+    "title": "Cardholder Dispute",
+    "network": "mastercard",
+    "phase": "chargeback",
+    "amount_minor": 164467,
+    "amount": "₹1,645",
+    "contest_cost": "₹350",
+    "below_cost": false,
+    "created_at": "2026-01-07T02:03:27.572297+05:30",
+    "respond_by": "2026-01-25T06:40:41.725203+05:30",
+    "observed_at": "2026-01-12T11:35:39.328781+05:30",
+    "deadline": {
+      "days": 12,
+      "hours": 19,
+      "total_hours": 307.08,
+      "window_hours": 436.62,
+      "elapsed": 0.2967,
+      "expired": false,
+      "critical": false,
+      "at_risk": false,
+      "display": "12d 19h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "shipping_proof",
+          "label": "proof of delivery",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "proof_of_service",
+          "label": "proof the service was rendered",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "customer_communication",
+          "label": "correspondence with the cardholder",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "term_and_conditions",
+          "label": "published terms and conditions",
+          "required": false,
+          "present": false,
+          "unavailable": false
+        }
+      ],
+      "required_total": 0,
+      "required_met": 0,
+      "completeness": 0.75,
+      "required_coverage": 1.0,
+      "sufficient": false,
+      "routing": "route_to_human",
+      "gaps": [
+        {
+          "name": "Reason code 4853 could not be resolved.",
+          "remedy": ""
+        }
+      ],
+      "resolution_note": ""
+    },
+    "constraints": [],
+    "rejections": [],
+    "recommendation": {
+      "action": "accept",
+      "p_win": 0.047488,
+      "break_even": 0.212809,
+      "expected_value": "-₹272",
+      "expected_value_minor": -27190,
+      "cost": "₹350",
+      "rationale": "Accept. The package cannot be assembled: Reason code 4853 could not be resolved. Contesting without the required evidence spends Rs 350 to lose the same Rs 1,645.",
+      "overrides": [
+        "evidence_insufficient"
+      ],
+      "comparable": [
+        3,
+        142
+      ]
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.428600+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "0c3bc410ce2ffd7f6bafc6d6b58f87ee3e60f87e877f85bd654f1747eae1f7ec",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "55aa0ccddcc7dba0040bb5d6c18b8d28a0b7262949ba0e617686607dda0153cf"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428631+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "da1f79d95e1ef359a576610b74d34131583cf41532fd28f1248658d95f5ad17e",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "55aa0ccddcc7dba0040bb5d6c18b8d28a0b7262949ba0e617686607dda0153cf",
+        "record_hash": "5690995fc321b25ab9343dee394b3eb49ad1fc08049cc1b1a85de47725c78bd6"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428817+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "5690995fc321b25ab9343dee394b3eb49ad1fc08049cc1b1a85de47725c78bd6",
+        "record_hash": "410bb7ebaf1af634c1707c456ce9a2f92b5e6fd9663e8ceaca32955d82ebf8fb"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428839+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "410bb7ebaf1af634c1707c456ce9a2f92b5e6fd9663e8ceaca32955d82ebf8fb",
+        "record_hash": "9803598ddceebbd3d0e84c9ae56906bca1b209976486ac78dcaf2fdb7deff2fa"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428854+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "9803598ddceebbd3d0e84c9ae56906bca1b209976486ac78dcaf2fdb7deff2fa",
+        "record_hash": "656c2894ea548af38fcb0d4abf1f9f633ba464ee3649ecf903da8a689adba735"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428868+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "656c2894ea548af38fcb0d4abf1f9f633ba464ee3649ecf903da8a689adba735",
+        "record_hash": "69f57d15ec223656925432b630fc7bb59c9fb6817f71e6da193f5e82e7d4731b"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428882+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "69f57d15ec223656925432b630fc7bb59c9fb6817f71e6da193f5e82e7d4731b",
+        "record_hash": "8799d02a0a50450e7e81321f3ae04465eb77d7a80a9ecc391a498b11db27ba46"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.428923+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "edd98953eddd35551ee0afcf15e521ceb929f79347a747a4b654d589de25539c",
+        "outputs_hash": "d4fb18efe5e79d52952a880a0d4f6c3d6c94dca09004c29b676a54fd0f8ffdb1",
+        "prev_hash": "8799d02a0a50450e7e81321f3ae04465eb77d7a80a9ecc391a498b11db27ba46",
+        "record_hash": "926ebd646f92a547eaa3a1ad8af03eb40df53b7d6aec8642eaa6540896a3ec5d"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "routed to a human",
+    "merchant_archetype": "d2c_apparel"
+  },
+  {
+    "case_id": "case_b5e4972220bdf187c214",
+    "dispute_id": "disp_MGiSSo6YHhYdTU",
+    "merchant_id": "acc_twp9quhm0UImZo",
+    "reason_code": "1064",
+    "resolved_code": "1064",
+    "title": "Goods/Services Not Received",
+    "network": "rupay",
+    "phase": "chargeback",
+    "amount_minor": 491539,
+    "amount": "₹4,915",
+    "contest_cost": "₹350",
+    "below_cost": false,
+    "created_at": "2026-01-06T02:17:28.620385+05:30",
+    "respond_by": "2026-01-22T20:59:54.301354+05:30",
+    "observed_at": "2026-01-09T09:22:58.672127+05:30",
+    "deadline": {
+      "days": 13,
+      "hours": 11,
+      "total_hours": 323.62,
+      "window_hours": 402.71,
+      "elapsed": 0.1964,
+      "expired": false,
+      "critical": false,
+      "at_risk": false,
+      "display": "13d 11h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "shipping_proof",
+          "label": "proof of delivery",
+          "required": true,
+          "present": false,
+          "unavailable": true
+        },
+        {
+          "field": "proof_of_service",
+          "label": "proof the service was rendered",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "customer_communication",
+          "label": "correspondence with the cardholder",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "term_and_conditions",
+          "label": "published terms and conditions",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        }
+      ],
+      "required_total": 1,
+      "required_met": 0,
+      "completeness": 0.473684,
+      "required_coverage": 0.0,
+      "sufficient": false,
+      "routing": "blocked",
+      "gaps": [
+        {
+          "name": "No proof of delivery. (source unavailable at retrieval time)",
+          "remedy": ""
+        }
+      ],
+      "resolution_note": ""
+    },
+    "constraints": [
+      {
+        "id": "delivery_before_dispute",
+        "severity": "blocking",
+        "source": "inferred",
+        "message": "Delivery is not evidenced as completed before the dispute was raised.",
+        "remedy": "Obtain carrier delivery confirmation dated before the dispute date.",
+        "status": "not_applicable"
+      }
+    ],
+    "rejections": [],
+    "recommendation": {
+      "action": "accept",
+      "p_win": 0.505063,
+      "break_even": 0.071205,
+      "expected_value": "₹2,133",
+      "expected_value_minor": 213258,
+      "cost": "₹350",
+      "rationale": "Accept. The package cannot be assembled: No proof of delivery. (source unavailable at retrieval time) Contesting without the required evidence spends Rs 350 to lose the same Rs 4,915.",
+      "overrides": [
+        "evidence_insufficient"
+      ],
+      "comparable": [
+        283,
+        629
+      ]
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "degraded",
+        "confidence": 0.75,
+        "errors": [
+          "shipping_proof: source did not respond"
+        ]
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.429220+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "a76cf3edee09064f324b3750de4d2f3a40b68ba1307acf13069a246574c393a6",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "2116c6145a421dfcb1ad92fdb7c782e1ff577ca4b6ff6e1c690007bfb20cbd40"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.429247+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "43d230d51a1b1ca710ea2f147f9ec94f42406a7ce45c61d3d31631f3941959f2",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "2116c6145a421dfcb1ad92fdb7c782e1ff577ca4b6ff6e1c690007bfb20cbd40",
+        "record_hash": "12608d64c9553e9625eb78a3339e72ba9f275c381d67bae220bab1a89622de30"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.429453+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "76ea7866e9572d2e87b6fda95fb743f08e14e408b31fc734e4009d1ab0eb8842",
+        "prev_hash": "12608d64c9553e9625eb78a3339e72ba9f275c381d67bae220bab1a89622de30",
+        "record_hash": "8535bd2c329296e5f275f1ee3964298d475b46cb1f1534963ddfb3434d5780c7"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.429473+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "8535bd2c329296e5f275f1ee3964298d475b46cb1f1534963ddfb3434d5780c7",
+        "record_hash": "8a8417ca33860ca76cb94e3f55203a80d6d80b00a9452e92102ecd0e2ef1161d"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.429488+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "8a8417ca33860ca76cb94e3f55203a80d6d80b00a9452e92102ecd0e2ef1161d",
+        "record_hash": "842122f048d84f895b90c10f87dce6b58757be48f3561e4151c685ff93a27306"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.429502+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "842122f048d84f895b90c10f87dce6b58757be48f3561e4151c685ff93a27306",
+        "record_hash": "b71a3333bb669d0431667e94f53a759629e93755d253ed747e8f4133c371cd9b"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.429516+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "b71a3333bb669d0431667e94f53a759629e93755d253ed747e8f4133c371cd9b",
+        "record_hash": "fdd0e3c192b2027842b216b49d9b194bd113f2d7cec65e1f849b5ff58dee4a1b"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.429557+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "504593c15358b7488022d46aab6ec5fd416e51847b37a5cc5d1503d8730d081f",
+        "outputs_hash": "efd59d7469edce8aef79312200094baefb09c50b762cc01fb2f6d435cf86c765",
+        "prev_hash": "fdd0e3c192b2027842b216b49d9b194bd113f2d7cec65e1f849b5ff58dee4a1b",
+        "record_hash": "f8e77e82cc201b4c7725e9b7f045f2148c6635e932f0f7a5288da6ea2d23347d"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "in a detected cluster",
+    "merchant_archetype": "d2c_apparel"
+  },
+  {
+    "case_id": "case_2664cdaf05cfe7c03149",
+    "dispute_id": "disp_EdlupgYQCDfthh",
+    "merchant_id": "acc_NWH1MywZjrkqP2",
+    "reason_code": "1061",
+    "resolved_code": "1061",
+    "title": "Credit Not Processed",
+    "network": "rupay",
+    "phase": "chargeback",
+    "amount_minor": 26285,
+    "amount": "₹263",
+    "contest_cost": "₹350",
+    "below_cost": true,
+    "created_at": "2026-01-05T10:46:41.436031+05:30",
+    "respond_by": "2026-01-22T18:34:58.818694+05:30",
+    "observed_at": "2026-01-12T23:31:12.790327+05:30",
+    "deadline": {
+      "days": 9,
+      "hours": 19,
+      "total_hours": 235.06,
+      "window_hours": 415.8,
+      "elapsed": 0.4347,
+      "expired": false,
+      "critical": false,
+      "at_risk": false,
+      "display": "9d 19h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "refund_confirmation",
+          "label": "refund confirmation",
+          "required": true,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "refund_cancellation_policy",
+          "label": "published refund and cancellation policy",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "customer_communication",
+          "label": "correspondence with the cardholder",
+          "required": false,
+          "present": false,
+          "unavailable": false
+        },
+        {
+          "field": "billing_proof",
+          "label": "billing or transaction record",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        }
+      ],
+      "required_total": 1,
+      "required_met": 1,
+      "completeness": 0.842105,
+      "required_coverage": 1.0,
+      "sufficient": true,
+      "routing": "assemble",
+      "gaps": [],
+      "resolution_note": ""
+    },
+    "constraints": [
+      {
+        "id": "refund_amount_matches_payment",
+        "severity": "blocking",
+        "source": "published",
+        "message": "The evidenced refund does not match the captured payment amount.",
+        "remedy": "Supply the refund confirmation matching the payment, or accept.",
+        "status": "not_applicable"
+      }
+    ],
+    "rejections": [],
+    "recommendation": {
+      "action": "accept",
+      "p_win": 0.344444,
+      "break_even": 1.0,
+      "expected_value": "-₹259",
+      "expected_value_minor": -25946,
+      "cost": "₹350",
+      "rationale": "Accept. Comparable cases: 204 of 500 won. P(win) 0.34, calibrated. At Rs 263 disputed against Rs 350 contest cost, the break-even probability is 1.000. Below break-even, so contesting loses Rs 259 on average.",
+      "overrides": [],
+      "comparable": [
+        204,
+        500
+      ]
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.429863+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "69a5b88d3c65f0011aa9ceac6801fcd11c93552d752d7f9a3930d13557f8a820",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "a98a168e53a1f4dcc271b1375ec50c672d42dd7c2c2bef19853d367b29d1a8fc"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.429890+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "7cb01b6853b58372f67e1fedb968f180ce59d883f08577d9c517ff9bb360cf6c",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "a98a168e53a1f4dcc271b1375ec50c672d42dd7c2c2bef19853d367b29d1a8fc",
+        "record_hash": "dff851db9f30a2a13479692568311f32347e9137fc68f6eb64e0f15247496445"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430016+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "dff851db9f30a2a13479692568311f32347e9137fc68f6eb64e0f15247496445",
+        "record_hash": "79fbe2a89264006bd63c4de39aa190e3fbe544300fa2af0bb8dcb306682f9b25"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430038+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "79fbe2a89264006bd63c4de39aa190e3fbe544300fa2af0bb8dcb306682f9b25",
+        "record_hash": "6a89766f52a4840430fd23eed33b3acb0963d451d2a95babb1aec93c1698b1d6"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430052+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "6a89766f52a4840430fd23eed33b3acb0963d451d2a95babb1aec93c1698b1d6",
+        "record_hash": "c5be7cd9cb10a7466e7ba2c590e08ff414c26cd37355fb2aae5f293839a3f57c"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430066+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "c5be7cd9cb10a7466e7ba2c590e08ff414c26cd37355fb2aae5f293839a3f57c",
+        "record_hash": "7fef4842308af527f93ab369021011985417c1da626f653f63e07e7c97d07530"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430080+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "7fef4842308af527f93ab369021011985417c1da626f653f63e07e7c97d07530",
+        "record_hash": "1b9c2a3a5494da0d7b583b4e3110a589e50a29392df7bb1ea35ddb158e7ca74c"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430123+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "9226dfe6f9d1feff0ebf42ad27d26e7f7850d4498d39b63664678e2ed1533883",
+        "outputs_hash": "88249498f4768dfa82fc6655148cec260a1e29e5d85ccede00d7f61388322378",
+        "prev_hash": "1b9c2a3a5494da0d7b583b4e3110a589e50a29392df7bb1ea35ddb158e7ca74c",
+        "record_hash": "a37d1555c9791cdc931d905b2d857125784a9e6637a4bf9fc8f6b48926038b91"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "below the cost of contesting",
+    "merchant_archetype": "food_delivery"
+  },
+  {
+    "case_id": "case_8c733b763db68acb63e4",
+    "dispute_id": "disp_EFwWXo7UFGe2Tf",
+    "merchant_id": "acc_4bNF2vk227W9Z1",
+    "reason_code": "M01",
+    "resolved_code": "M01",
+    "title": "Chargeback Authorisation",
+    "network": "amex",
+    "phase": "chargeback",
+    "amount_minor": 97979,
+    "amount": "₹980",
+    "contest_cost": "₹350",
+    "below_cost": false,
+    "created_at": "2026-01-05T03:41:39.343721+05:30",
+    "respond_by": "2026-01-14T07:30:44.815254+05:30",
+    "observed_at": "2026-01-07T07:21:37.183350+05:30",
+    "deadline": {
+      "days": 7,
+      "hours": 0,
+      "total_hours": 168.15,
+      "window_hours": 219.82,
+      "elapsed": 0.235,
+      "expired": false,
+      "critical": false,
+      "at_risk": false,
+      "display": "7d 00h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "explanation_letter",
+          "label": "explanation letter",
+          "required": true,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "customer_communication",
+          "label": "correspondence with the cardholder",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        }
+      ],
+      "required_total": 1,
+      "required_met": 1,
+      "completeness": 1.0,
+      "required_coverage": 1.0,
+      "sufficient": true,
+      "routing": "assemble",
+      "gaps": [],
+      "resolution_note": ""
+    },
+    "constraints": [],
+    "rejections": [],
+    "recommendation": {
+      "action": "accept",
+      "p_win": 0.260387,
+      "break_even": 0.357219,
+      "expected_value": "-₹95",
+      "expected_value_minor": -9488,
+      "cost": "₹350",
+      "rationale": "Accept. Comparable cases: 13 of 36 won. P(win) 0.26, calibrated. At Rs 980 disputed against Rs 350 contest cost, the break-even probability is 0.357. Below break-even, so contesting loses Rs 95 on average.",
+      "overrides": [],
+      "comparable": [
+        13,
+        36
+      ]
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.430420+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "8922f94a8bd1a34d2cc8f15445a8ef231c5900bc402b80793e7d2529958295b5",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "0cc70009f3fed45a0466f1b6aaa90792418a80425b57e5529fd335e428167c89"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430445+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "37ec71a77b6e746dc2a5a8843a91e619f8e2695cf36588e06d883df84d2aab7e",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "0cc70009f3fed45a0466f1b6aaa90792418a80425b57e5529fd335e428167c89",
+        "record_hash": "c2799fb64d6d1e51dfb0d8947dc8d93cfe4f0de9dc17cf9077b9c68394821ffb"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430585+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "c2799fb64d6d1e51dfb0d8947dc8d93cfe4f0de9dc17cf9077b9c68394821ffb",
+        "record_hash": "7829f752afc86a8697615be7ffb884c9801d40dad15cedec4b397424b8e30a7f"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430602+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "7829f752afc86a8697615be7ffb884c9801d40dad15cedec4b397424b8e30a7f",
+        "record_hash": "ee0863faf4362c539072418e05c77c1127318a05988bfe1aaa1edb27e4d500ce"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430622+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "ee0863faf4362c539072418e05c77c1127318a05988bfe1aaa1edb27e4d500ce",
+        "record_hash": "c31309bb67aa783d455de3dc8260edd2dc1328690f6fbdaa9cf6fd7f0e4c8266"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430636+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "c31309bb67aa783d455de3dc8260edd2dc1328690f6fbdaa9cf6fd7f0e4c8266",
+        "record_hash": "ea2c3d98f0365e69ace758b85aac87bc206f11121786d334e2ec99d80d0d31b5"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430650+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "ea2c3d98f0365e69ace758b85aac87bc206f11121786d334e2ec99d80d0d31b5",
+        "record_hash": "d77c0f067444a9ade71446e044be3f7ba908b8b7e2890f8bdcdbc3916db8e08a"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.430690+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "b0956a4d376c91cc5147f16c6953807f357cc6e19cebf5d98d7a33d8f0ef1fbc",
+        "outputs_hash": "6f90843a1a3b0cf557331f593b862d2a0fe7362b2e1859622d154880b81dff34",
+        "prev_hash": "d77c0f067444a9ade71446e044be3f7ba908b8b7e2890f8bdcdbc3916db8e08a",
+        "record_hash": "ae244c5498db40216110e0eb886dbb3f81190b05c83611589b4de7c0941f524d"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "",
+    "merchant_archetype": "thin_records_smb"
+  },
+  {
+    "case_id": "case_0dca43b10f6d5cc0a820",
+    "dispute_id": "disp_oLyTKgVwYLwgUw",
+    "merchant_id": "acc_NWH1MywZjrkqP2",
+    "reason_code": "13.1",
+    "resolved_code": "13.1",
+    "title": "Merchandise/Services Not Received",
+    "network": "visa",
+    "phase": "chargeback",
+    "amount_minor": 13654,
+    "amount": "₹137",
+    "contest_cost": "₹350",
+    "below_cost": true,
+    "created_at": "2026-01-05T17:57:23.513127+05:30",
+    "respond_by": "2026-01-20T18:01:34.123265+05:30",
+    "observed_at": "2026-01-08T23:17:58.144185+05:30",
+    "deadline": {
+      "days": 11,
+      "hours": 18,
+      "total_hours": 282.73,
+      "window_hours": 360.07,
+      "elapsed": 0.2148,
+      "expired": false,
+      "critical": false,
+      "at_risk": false,
+      "display": "11d 18h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "shipping_proof",
+          "label": "proof of delivery",
+          "required": true,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "proof_of_service",
+          "label": "proof the service was rendered",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "access_activity_log",
+          "label": "account access or usage log",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "customer_communication",
+          "label": "correspondence with the cardholder",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        }
+      ],
+      "required_total": 1,
+      "required_met": 1,
+      "completeness": 1.0,
+      "required_coverage": 1.0,
+      "sufficient": true,
+      "routing": "assemble",
+      "gaps": [],
+      "resolution_note": ""
+    },
+    "constraints": [
+      {
+        "id": "delivery_before_dispute",
+        "severity": "blocking",
+        "source": "inferred",
+        "message": "Delivery is not evidenced as completed before the dispute was raised.",
+        "remedy": "Obtain carrier delivery confirmation dated before the dispute date.",
+        "status": "not_applicable"
+      },
+      {
+        "id": "signature_strongly_preferred",
+        "severity": "warn",
+        "source": "published",
+        "message": "Delivery proof carries no signature capture.",
+        "remedy": "Request the signed proof of delivery from the carrier.",
+        "status": "warned"
+      }
+    ],
+    "rejections": [],
+    "recommendation": {
+      "action": "accept",
+      "p_win": 0.344529,
+      "break_even": 1.0,
+      "expected_value": "-₹303",
+      "expected_value_minor": -30296,
+      "cost": "₹350",
+      "rationale": "Accept. Comparable cases: 675 of 1519 won. P(win) 0.34, calibrated. At Rs 137 disputed against Rs 350 contest cost, the break-even probability is 1.000. Below break-even, so contesting loses Rs 303 on average.",
+      "overrides": [],
+      "comparable": [
+        675,
+        1519
+      ]
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.430981+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "15064bcc82009864409d1a28f16abb297de98742e088e05a419d4c9901b415d9",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "2f3ff6c05f86d32bc8d88f8923612a24739d25c6bd5f3def51dc4eae0b12020f"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431007+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "b32c541ceb65093b2c3dbf14eff49b5da5d257254d27d27a5683624d73ed80cb",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "2f3ff6c05f86d32bc8d88f8923612a24739d25c6bd5f3def51dc4eae0b12020f",
+        "record_hash": "c6eda89f262a86789e7f2b6f516917b578a841e983dcf3f39712adcbe256bd96"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431138+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "c6eda89f262a86789e7f2b6f516917b578a841e983dcf3f39712adcbe256bd96",
+        "record_hash": "4bbd02d4e55ce96206854b1b32d74cec3b3b998927006ca98da88b5a4247b631"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431158+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "4bbd02d4e55ce96206854b1b32d74cec3b3b998927006ca98da88b5a4247b631",
+        "record_hash": "7a147e4f535492abe10ba9b1be6ec742fa56f0f2a1e674cbfb5805e91a8cbe2b"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431172+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "7a147e4f535492abe10ba9b1be6ec742fa56f0f2a1e674cbfb5805e91a8cbe2b",
+        "record_hash": "62ec26e4109e6affb8f3b872e3316f632c5aad72be63764de06561c76332b593"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431186+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "62ec26e4109e6affb8f3b872e3316f632c5aad72be63764de06561c76332b593",
+        "record_hash": "6986e4f8eac9a112ed49fa5c9b4d7af384f081a8248e5f8b38adb1119bcb28b9"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431200+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "6986e4f8eac9a112ed49fa5c9b4d7af384f081a8248e5f8b38adb1119bcb28b9",
+        "record_hash": "744285824ea677fb624f5f59a9d59218341550473ba50d7f2c55195c85bb2401"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431256+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "33d067a40be29f76816a5663897557773259ba789fdf5e5a144b81497feafda9",
+        "outputs_hash": "6326117f27247065dab8706c3e1c8f3181c80c36b6e1765b62e7d20319a31757",
+        "prev_hash": "744285824ea677fb624f5f59a9d59218341550473ba50d7f2c55195c85bb2401",
+        "record_hash": "0c2b5e9d84e91fc824fe90b5be5c611903fd494447fec2d76659050f348b1395"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "",
+    "merchant_archetype": "food_delivery"
+  },
+  {
+    "case_id": "case_2bb2bb810126726a08b0",
+    "dispute_id": "disp_nsdKN1GjflNEVD",
+    "merchant_id": "acc_zRPWM5HHaoYKSa",
+    "reason_code": "RZP01",
+    "resolved_code": "RZP01",
+    "title": "Goods/Services not Provided",
+    "network": "razorpay",
+    "phase": "chargeback",
+    "amount_minor": 16059,
+    "amount": "₹161",
+    "contest_cost": "₹350",
+    "below_cost": true,
+    "created_at": "2026-01-05T19:51:51.680253+05:30",
+    "respond_by": "2026-01-21T05:44:34.004557+05:30",
+    "observed_at": "2026-01-06T20:52:05.293376+05:30",
+    "deadline": {
+      "days": 14,
+      "hours": 8,
+      "total_hours": 344.87,
+      "window_hours": 369.88,
+      "elapsed": 0.0676,
+      "expired": false,
+      "critical": false,
+      "at_risk": false,
+      "display": "14d 08h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "shipping_proof",
+          "label": "proof of delivery",
+          "required": true,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "proof_of_service",
+          "label": "proof the service was rendered",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "customer_communication",
+          "label": "correspondence with the cardholder",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "term_and_conditions",
+          "label": "published terms and conditions",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        }
+      ],
+      "required_total": 1,
+      "required_met": 1,
+      "completeness": 1.0,
+      "required_coverage": 1.0,
+      "sufficient": true,
+      "routing": "assemble",
+      "gaps": [],
+      "resolution_note": ""
+    },
+    "constraints": [],
+    "rejections": [],
+    "recommendation": {
+      "action": "accept",
+      "p_win": 0.315469,
+      "break_even": 1.0,
+      "expected_value": "-₹299",
+      "expected_value_minor": -29934,
+      "cost": "₹350",
+      "rationale": "Accept. Comparable cases: 420 of 1038 won. P(win) 0.32, calibrated. At Rs 161 disputed against Rs 350 contest cost, the break-even probability is 1.000. Below break-even, so contesting loses Rs 299 on average.",
+      "overrides": [],
+      "comparable": [
+        420,
+        1038
+      ]
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.431537+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "5d208b6b43bbf7f0a6a81105d3e2b0b46af55e7dcfd27c85ab6a26ca86416001",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "e7fd9ac61da98da4f76b120896638eae901dd1ff63d39de1e435fe5758881804"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431563+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "49bea9f192d396cae7ac690ba87c5f76e674161f87c90c52bc01ed8f68194d6e",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "e7fd9ac61da98da4f76b120896638eae901dd1ff63d39de1e435fe5758881804",
+        "record_hash": "2631f75efcc9bfcaf548986ebd25d77a6b761d0ae31a8fdf2cb8e5f79c29c2d2"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431687+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "2631f75efcc9bfcaf548986ebd25d77a6b761d0ae31a8fdf2cb8e5f79c29c2d2",
+        "record_hash": "c9970e25ef82e8e105c79e3a4b76b3dfd8571fc022e9cd5a9b8d2ad988b93726"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431712+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "c9970e25ef82e8e105c79e3a4b76b3dfd8571fc022e9cd5a9b8d2ad988b93726",
+        "record_hash": "206eac43722a9650eda0beb4b668ba9db047c7425523d4bb251c5eccf26f0a7a"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431726+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "206eac43722a9650eda0beb4b668ba9db047c7425523d4bb251c5eccf26f0a7a",
+        "record_hash": "5a8908ced43bc48689d69c153f48baa66d44ef826bec544610c18a816be7fc8c"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431741+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "5a8908ced43bc48689d69c153f48baa66d44ef826bec544610c18a816be7fc8c",
+        "record_hash": "0c8a8eb04615ce2a60ebc18036c376d84b168216071f8d5ab8f70f29813a33bb"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431756+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "0c8a8eb04615ce2a60ebc18036c376d84b168216071f8d5ab8f70f29813a33bb",
+        "record_hash": "fa4542934976890adc926c4593688e54fbf8ea9dae1ffe46e60a2a6a566aaa7b"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.431793+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "cbc106803f2581934f3cf9c59abab30a22a3200644a043a8c774c9618443df8e",
+        "outputs_hash": "5d039de334f366acf35ee7c35dbf5d546523ca54c766961670f32cba41aea346",
+        "prev_hash": "fa4542934976890adc926c4593688e54fbf8ea9dae1ffe46e60a2a6a566aaa7b",
+        "record_hash": "c8bd02fcff7a13ce962259bad367d7271d622bc89f8eb7c86c0ff36463ef0cc6"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "",
+    "merchant_archetype": "food_delivery"
+  },
+  {
+    "case_id": "case_eb7819b5c9e281d43676",
+    "dispute_id": "disp_CswpfTLpYid1R5",
+    "merchant_id": "acc_4bNF2vk227W9Z1",
+    "reason_code": "13.6",
+    "resolved_code": "13.6",
+    "title": "Credit Not Processed",
+    "network": "visa",
+    "phase": "chargeback",
+    "amount_minor": 252624,
+    "amount": "₹2,526",
+    "contest_cost": "₹350",
+    "below_cost": false,
+    "created_at": "2026-01-05T19:54:42.740036+05:30",
+    "respond_by": "2026-01-24T06:09:04.103444+05:30",
+    "observed_at": "2026-01-09T11:10:28.288264+05:30",
+    "deadline": {
+      "days": 14,
+      "hours": 18,
+      "total_hours": 354.98,
+      "window_hours": 442.24,
+      "elapsed": 0.1973,
+      "expired": false,
+      "critical": false,
+      "at_risk": false,
+      "display": "14d 18h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "refund_confirmation",
+          "label": "refund confirmation",
+          "required": true,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "refund_cancellation_policy",
+          "label": "published refund and cancellation policy",
+          "required": false,
+          "present": false,
+          "unavailable": false
+        },
+        {
+          "field": "others.return_log",
+          "label": "return log",
+          "required": false,
+          "present": false,
+          "unavailable": false
+        }
+      ],
+      "required_total": 1,
+      "required_met": 1,
+      "completeness": 0.625,
+      "required_coverage": 1.0,
+      "sufficient": true,
+      "routing": "assemble",
+      "gaps": [],
+      "resolution_note": ""
+    },
+    "constraints": [
+      {
+        "id": "refund_amount_matches",
+        "severity": "blocking",
+        "source": "inferred",
+        "message": "The evidenced refund amount does not match the disputed amount.",
+        "remedy": "Supply the refund confirmation for the full disputed amount, or accept.",
+        "status": "not_applicable"
+      }
+    ],
+    "rejections": [],
+    "recommendation": {
+      "action": "contest",
+      "p_win": 0.333271,
+      "break_even": 0.138546,
+      "expected_value": "₹492",
+      "expected_value_minor": 49192,
+      "cost": "₹350",
+      "rationale": "Contest. Comparable cases: 375 of 885 won. P(win) 0.33, calibrated. At Rs 2,526 disputed against Rs 350 contest cost, the break-even probability is 0.139. Expected value of contesting: Rs 492.",
+      "overrides": [],
+      "comparable": [
+        375,
+        885
+      ]
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.432063+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "70afd9bab8f365f4beec236f654a42cf6b8080c2cd79fd2db9c9fc3bcbf34b04",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "e6ab6ddf0380d30e7decd133382eff770c4137edaddcaa029ffce0a1e5860147"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.432088+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "3960f93433c35242ddbab7aa269aa80c120a2e792e568042861874dd233b3eca",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "e6ab6ddf0380d30e7decd133382eff770c4137edaddcaa029ffce0a1e5860147",
+        "record_hash": "ba12e24b1c636973abfd6b4fd65ae4d8cf0d5ba1c99727b41e453b9aa254e438"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.432208+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "ba12e24b1c636973abfd6b4fd65ae4d8cf0d5ba1c99727b41e453b9aa254e438",
+        "record_hash": "bc16149ca24f3bee74f885ae119074006de31e4d479266b45ff94c5991c94974"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.432236+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "bc16149ca24f3bee74f885ae119074006de31e4d479266b45ff94c5991c94974",
+        "record_hash": "179668a4a20ae2f4768384605adb536023d585ab1aa0b00d35590dece9df62ba"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.432250+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "179668a4a20ae2f4768384605adb536023d585ab1aa0b00d35590dece9df62ba",
+        "record_hash": "75cc469917f6d5bd668f0af2fadaf8be852c241a3f5e357376f82e2dc04aff18"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.432263+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "75cc469917f6d5bd668f0af2fadaf8be852c241a3f5e357376f82e2dc04aff18",
+        "record_hash": "582a8dbd274b0b83e1ce4f394fb5805520c5b08cea2fd2825a12e9c534609a35"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.432277+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "582a8dbd274b0b83e1ce4f394fb5805520c5b08cea2fd2825a12e9c534609a35",
+        "record_hash": "ad08b6b46f781a40586958798081a542a6c5e5d79a130a4d22c93b92b185ecb3"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.432321+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "0b6be59a0cdd60787f05094d958fd6260f9e71ab7934eaaeaa4015863384bf7a",
+        "outputs_hash": "59bf163577dfe58dcc26ae4eeeacecea2e51774f31bfd3546278346392c7912e",
+        "prev_hash": "ad08b6b46f781a40586958798081a542a6c5e5d79a130a4d22c93b92b185ecb3",
+        "record_hash": "e321c773b92d87e255ec3400e4d49d9c9371d47abcb6fa9c8d510d4e556d59f9"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "",
+    "merchant_archetype": "thin_records_smb"
+  },
+  {
+    "case_id": "case_f5a41056ac30072dc615",
+    "dispute_id": "disp_kmMjxil3Feuqhs",
+    "merchant_id": "acc_4AKOCXKvvL4YQK",
+    "reason_code": "RZP01",
+    "resolved_code": "RZP01",
+    "title": "Goods/Services not Provided",
+    "network": "razorpay",
+    "phase": "chargeback",
+    "amount_minor": 204876,
+    "amount": "₹2,049",
+    "contest_cost": "₹350",
+    "below_cost": false,
+    "created_at": "2026-01-05T20:42:56.212651+05:30",
+    "respond_by": "2026-01-14T09:57:32.977153+05:30",
+    "observed_at": "2026-01-07T05:28:20.944266+05:30",
+    "deadline": {
+      "days": 7,
+      "hours": 4,
+      "total_hours": 172.49,
+      "window_hours": 205.24,
+      "elapsed": 0.1596,
+      "expired": false,
+      "critical": false,
+      "at_risk": false,
+      "display": "7d 04h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "shipping_proof",
+          "label": "proof of delivery",
+          "required": true,
+          "present": false,
+          "unavailable": false
+        },
+        {
+          "field": "proof_of_service",
+          "label": "proof the service was rendered",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "customer_communication",
+          "label": "correspondence with the cardholder",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "term_and_conditions",
+          "label": "published terms and conditions",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        }
+      ],
+      "required_total": 1,
+      "required_met": 0,
+      "completeness": 0.473684,
+      "required_coverage": 0.0,
+      "sufficient": false,
+      "routing": "blocked",
+      "gaps": [
+        {
+          "name": "No proof of delivery.",
+          "remedy": ""
+        }
+      ],
+      "resolution_note": ""
+    },
+    "constraints": [],
+    "rejections": [],
+    "recommendation": {
+      "action": "accept",
+      "p_win": 0.046842,
+      "break_even": 0.170835,
+      "expected_value": "-₹254",
+      "expected_value_minor": -25403,
+      "cost": "₹350",
+      "rationale": "Accept. The package cannot be assembled: No proof of delivery. Contesting without the required evidence spends Rs 350 to lose the same Rs 2,049.",
+      "overrides": [
+        "evidence_insufficient"
+      ],
+      "comparable": [
+        8,
+        169
+      ]
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.432612+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "117e2f245605982c8bddd0fec980ce744541fd3cabd31c375fe330fe0cb56ca6",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "be1f7cdc04e31922ac2d7e1de0e8fe75857b098385079d7b62a3c45b90e7efad"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.432635+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "a39def729eb563905f05fde42cce6b1efda70852af8a91253412e7d67e1a7c73",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "be1f7cdc04e31922ac2d7e1de0e8fe75857b098385079d7b62a3c45b90e7efad",
+        "record_hash": "49df3e26ae70dbea70b6e08199dea7a54bd955ce5e78c4f8846ba56d4ca54380"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.432953+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "49df3e26ae70dbea70b6e08199dea7a54bd955ce5e78c4f8846ba56d4ca54380",
+        "record_hash": "89aa393224c4991bb98754a79fcf4727cb247a1017e6e5e4417c23168742abd4"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.432974+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "89aa393224c4991bb98754a79fcf4727cb247a1017e6e5e4417c23168742abd4",
+        "record_hash": "e8a6001507c030b4c081276985082f97916373e6df855567af8983e5a8926ff4"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.432989+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "e8a6001507c030b4c081276985082f97916373e6df855567af8983e5a8926ff4",
+        "record_hash": "53dcdd5e8f13e03c1fcd75069afaf82bcbfcfde75e19b4e7eb0ac01cf88173ac"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.433013+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "53dcdd5e8f13e03c1fcd75069afaf82bcbfcfde75e19b4e7eb0ac01cf88173ac",
+        "record_hash": "a7837c46640ab07c57a2130db0cea14f4f36c9f8f6aed30a46c99d6be4c4b158"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.433027+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "a7837c46640ab07c57a2130db0cea14f4f36c9f8f6aed30a46c99d6be4c4b158",
+        "record_hash": "091eafd405c0ca7df335fc4fa6f9b9a5bc2a4273958713563c74a3fb79819066"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.433067+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "1daaa0729007654a8224693500227fa33e7aa54320e623a8ccdf991729200012",
+        "outputs_hash": "309fb43b7f9a9958a7ab3a8e87db459ab172aec735c4007410b77c5ec4846a7d",
+        "prev_hash": "091eafd405c0ca7df335fc4fa6f9b9a5bc2a4273958713563c74a3fb79819066",
+        "record_hash": "a1f2cd6cb894f41ed8569d5c422ad0d7aee56dcaea49719baf57bd7ef29d5f1f"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "",
+    "merchant_archetype": "thin_records_smb"
+  },
+  {
+    "case_id": "case_a4d0b119f58503998726",
+    "dispute_id": "disp_JkFJ3KAu7F6xYn",
+    "merchant_id": "acc_9R3Yudph8ZVo52",
+    "reason_code": "RZP04",
+    "resolved_code": "RZP04",
+    "title": "Refund not Processed",
+    "network": "razorpay",
+    "phase": "chargeback",
+    "amount_minor": 116941,
+    "amount": "₹1,169",
+    "contest_cost": "₹350",
+    "below_cost": false,
+    "created_at": "2026-01-05T21:05:15.666905+05:30",
+    "respond_by": "2026-01-17T11:59:27.731191+05:30",
+    "observed_at": "2026-01-09T19:22:45.588799+05:30",
+    "deadline": {
+      "days": 7,
+      "hours": 16,
+      "total_hours": 184.61,
+      "window_hours": 278.9,
+      "elapsed": 0.3381,
+      "expired": false,
+      "critical": false,
+      "at_risk": false,
+      "display": "7d 16h"
+    },
+    "evidence": {
+      "checklist": [
+        {
+          "field": "refund_confirmation",
+          "label": "refund confirmation",
+          "required": true,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "billing_proof",
+          "label": "billing or transaction record",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        },
+        {
+          "field": "customer_communication",
+          "label": "correspondence with the cardholder",
+          "required": false,
+          "present": false,
+          "unavailable": false
+        },
+        {
+          "field": "refund_cancellation_policy",
+          "label": "published refund and cancellation policy",
+          "required": false,
+          "present": true,
+          "unavailable": false
+        }
+      ],
+      "required_total": 1,
+      "required_met": 1,
+      "completeness": 0.842105,
+      "required_coverage": 1.0,
+      "sufficient": true,
+      "routing": "assemble",
+      "gaps": [],
+      "resolution_note": ""
+    },
+    "constraints": [
+      {
+        "id": "refund_amount_matches_payment",
+        "severity": "blocking",
+        "source": "published",
+        "message": "The evidenced refund does not match the captured payment amount.",
+        "remedy": "Supply the refund confirmation matching the payment, or accept.",
+        "status": "not_applicable"
+      }
+    ],
+    "rejections": [],
+    "recommendation": {
+      "action": "contest",
+      "p_win": 0.555564,
+      "break_even": 0.299296,
+      "expected_value": "₹300",
+      "expected_value_minor": 29968,
+      "cost": "₹350",
+      "rationale": "Contest. Comparable cases: 264 of 633 won. P(win) 0.56, calibrated. At Rs 1,169 disputed against Rs 350 contest cost, the break-even probability is 0.299. Expected value of contesting: Rs 300.",
+      "overrides": [],
+      "comparable": [
+        264,
+        633
+      ]
+    },
+    "network_finding": {
+      "component_size": 1,
+      "prior_disputes": 0,
+      "prior_merchants": 0,
+      "disputes_per_day": 0.0,
+      "shares_entity": false
+    },
+    "agents": [
+      {
+        "name": "evidence",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "merchant",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "network",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "policy",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      },
+      {
+        "name": "precedent",
+        "status": "ok",
+        "confidence": 1.0,
+        "errors": []
+      }
+    ],
+    "audit": [
+      {
+        "ts": "2026-09-05T09:38:46.433359+00:00",
+        "actor": "system",
+        "event": "dispute.created",
+        "inputs_hash": "f7bf940b7c12a96af19c7d98b0badd81a6f88bd29af8e1bea44de6dd41d45cbe",
+        "outputs_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "record_hash": "1328553c393123ffca9224828c296cf1ac5ce042bb76365a0416de9ebd46bfa9"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.433384+00:00",
+        "actor": "system",
+        "event": "agents.dispatched",
+        "inputs_hash": "3c518a4e544370967a3b644ba9905e6895afa7bc32e4a20e4576981a2973c71f",
+        "outputs_hash": "c5acf2db868e2ea41935bf92047449dca392a9c1e0c497e957e8c21e158b5d5c",
+        "prev_hash": "1328553c393123ffca9224828c296cf1ac5ce042bb76365a0416de9ebd46bfa9",
+        "record_hash": "282272130133a479a6547ac4d1b448c056b26834a56fe726c71975971cc67fd7"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.433509+00:00",
+        "actor": "agent:evidence",
+        "event": "agent.returned",
+        "inputs_hash": "fbb52751fedb9b2e492263125304bf342638dac891ce8a9a083312b1c205811a",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "282272130133a479a6547ac4d1b448c056b26834a56fe726c71975971cc67fd7",
+        "record_hash": "90e307cc5b4265e3d5bc663338d2ee5d5f3de8a13c9b477b21986a1df0001a2e"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.433528+00:00",
+        "actor": "agent:network",
+        "event": "agent.returned",
+        "inputs_hash": "48c622fd45e4b638645b8c4a14ed3df228648fb4124d49f3de3aceb96180cb34",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "90e307cc5b4265e3d5bc663338d2ee5d5f3de8a13c9b477b21986a1df0001a2e",
+        "record_hash": "b2476af0a6d74f9c205acda04358f48e4fd2cb09c258a714dec0c8e526f95bd5"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.433542+00:00",
+        "actor": "agent:precedent",
+        "event": "agent.returned",
+        "inputs_hash": "035ad82e791b53d54360af5b8f2ff647f5de7a516401a96dcaff384095a42e66",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "b2476af0a6d74f9c205acda04358f48e4fd2cb09c258a714dec0c8e526f95bd5",
+        "record_hash": "f57b2cb047d3fbe07596cd65c6db429f61f222f89cdee3a78b6a457c1b5aab2d"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.433557+00:00",
+        "actor": "agent:policy",
+        "event": "agent.returned",
+        "inputs_hash": "f060416185ab048f9fbe1b35c173a9cb641810d569588e268cbe07883158b342",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "f57b2cb047d3fbe07596cd65c6db429f61f222f89cdee3a78b6a457c1b5aab2d",
+        "record_hash": "046a0589ae1ec3584348fdb66f81b1b52e70100b3dd3589cc59a8241f519b80d"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.433570+00:00",
+        "actor": "agent:merchant",
+        "event": "agent.returned",
+        "inputs_hash": "23fd897e802bad4a308bce4c835bbcd8604640f4c675c2a7f6b26350abdab79e",
+        "outputs_hash": "f3f9bd433815dd914cfab1186a7fdc6cbe356de5ae4cb5b13d53d9ac32d636a8",
+        "prev_hash": "046a0589ae1ec3584348fdb66f81b1b52e70100b3dd3589cc59a8241f519b80d",
+        "record_hash": "421746add8559ae87843390be031034d196e5fde678ff3571a7d3ea793146eaa"
+      },
+      {
+        "ts": "2026-09-05T09:38:46.433620+00:00",
+        "actor": "system",
+        "event": "decision.made",
+        "inputs_hash": "2549857332e51f8cba8e8890475b22b8687fa38d38a67e6fb696c18666cae177",
+        "outputs_hash": "c8170cafe1db8e87c264725a8b4becc69ec91b586cb4c57ea6890cc880463a2c",
+        "prev_hash": "421746add8559ae87843390be031034d196e5fde678ff3571a7d3ea793146eaa",
+        "record_hash": "7ccb0f3d49c7bc8f2527127ca0e28d88386f737afbd3c3227538af3102540051"
+      }
+    ],
+    "audit_intact": true,
+    "scenario": "",
+    "merchant_archetype": "d2c_apparel"
+  }
+]

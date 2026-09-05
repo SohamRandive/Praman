@@ -10,6 +10,12 @@ branch of Indian epistemology concerned with what counts as admissible evidence
 for a claim. This is a machine that decides what evidence is sufficient to
 support a claim before a deadline. The name is the spec.
 
+**Live console:** [praman-console.onrender.com](https://praman-console.onrender.com)
+— deployed straight from this repo as a static site (`render.yaml`); nothing
+server-side runs, since the evidence engine, adjudicator and agent mesh are a
+deterministic offline pipeline whose output is exactly the JSON already built
+into the site. Free tier, so a cold start after idle can take 30–60s.
+
 ---
 
 ## The problem, in money
@@ -351,6 +357,9 @@ One transition exists in the whole product: the descent into the chamber, which
 takes the whole viewport, sidebar included. Everything else is instant, and there
 are no entrance animations.
 
+Live at [praman-console.onrender.com](https://praman-console.onrender.com), or
+run it locally against the fixture set already checked in:
+
 ```bash
 make console-data && make chamber-data && make console-metrics && make console
 cd web && npm run dev
@@ -569,3 +578,19 @@ make demo           # real corpus cases and what the engine decided
 make test           # unit tests
 make verify-matrix  # fail if the matrix is stale against the live docs
 ```
+
+---
+
+## Deploy
+
+Only the console (`web/`) deploys anywhere. There is no live backend to deploy
+— the evidence engine, adjudicator, network forensics and agent mesh are a
+deterministic, offline pipeline; `make console-data`, `make chamber-data` and
+`make console-metrics` produce the exact JSON the built site ships with, and
+nothing computes anything further at request time.
+
+`render.yaml` at the repo root is a Render Blueprint: connect this repo on
+[Render](https://dashboard.render.com) (**New → Blueprint**) and it builds
+`web/` with `npm ci && npm run build`, publishing `web/dist` as a static site.
+No environment variables, no database, no server process. Deployed this way at
+[praman-console.onrender.com](https://praman-console.onrender.com).

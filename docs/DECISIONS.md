@@ -355,10 +355,11 @@ build plan is not reordered by it.
 `styles.css` had already abandoned §12.2's light surface for a dark one, arguing
 in a header comment that the work is instrument work rather than document work.
 That was a real change to the shipped product that never reached the spec, which
-is how a spec stops being read. The shell restores §12.2: light workspace, dark
-sidebar. The light/dark split now falls on the axis §12.1 originally argued for —
-document surfaces light, the graph chamber dark — with the sidebar dark because
-persistent chrome should recede, not because the surface changed meaning.
+is how a spec stops being read. The shell briefly restored §12.2's light
+workspace — and that restoration was then reversed again, deliberately and with
+reasons, in **ADR-015**. The palette that ships is dark. This paragraph is left
+standing rather than edited into agreement, because a decision log that quietly
+rewrites its own history is worth less than one that shows the argument moving.
 
 **Real numbers only.** Every KPI tile reads from `web/src/metrics.json`, written
 by `eval/run_eval.py` from the held-out test split, or is derived in the browser
@@ -433,3 +434,47 @@ does not claim a hallucination rate for any model, because it has not measured
 one.** The claim is that this class of error is caught and that the catch is
 reproducible. Quoting an injected rate as if it were an observed one would be
 precisely the dishonesty the rest of this log exists to prevent.
+
+
+---
+
+## ADR-015 — The console is a dark instrument, not a light document
+
+**Decision.** The console ships on a dark ground (`#0F1116`), with the chamber
+deepening to `#08090C` rather than inverting into it. This reverses the light
+workspace ADR-013 had restored from §12.2.
+
+**Why the light premise was wrong.** §12.1 argued the surface from
+document-reading ergonomics: a case is document work, and extended reading in
+daylight is better on white. Measured against the screen that actually shipped,
+the premise does not hold. A case view holds six short lines of evidence, a
+verdict, and a countdown. The primary job is triaging a queue against a filing
+deadline, and that is instrument work — closer to a trading screen than to a
+contract.
+
+**The second reason is about signature, not ergonomics.** Warm off-white with
+near-black type is the most recognisable generated-interface look there is. A
+surface can be defensible on its reasoning and still read as templated on sight,
+and on a panel that is judging taste, reading as templated is a cost the
+reasoning does not pay back.
+
+**What the swap cost, and what it did not.** The stylesheet was already fully
+tokenised, so the change lands in the `:root` block rather than across six
+hundred rules — which is the return on having written it that way. Roles are
+unchanged: verdigris still means recoverable, ochre still means a gap needing a
+human, oxblood still means loss. Only luminance moved.
+
+**One role genuinely changed, and it was a bug fix.** Indigo becomes a state of
+its own rather than a structural accent. *Routed to a human* is not a loss, and
+rendering it in the same colour as a blocked package told the merchant something
+false about their own case.
+
+**Cost.** §12.1's ergonomic argument is now unused, and the light/dark
+distinction that once separated document work from graph work no longer carries
+meaning — the chamber deepens rather than inverting, which is a weaker signal
+for the one mode change in the product. That is a real loss and it is the price
+of the surface not reading as a template.
+
+**Guarded.** `tests/test_console.py` holds the reversal in place, including a
+check for the near-white `rgba()` that minifies into a light hex and would
+otherwise reintroduce the old ground unnoticed.

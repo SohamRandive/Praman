@@ -337,6 +337,25 @@ band was widened in proportion — silent degradation in a money system is the
 failure mode that ends careers. The sidebar rolls the same statuses up across all
 twelve cases, worst-state-wins, counted rather than averaged.
 
+**The surface is dark because this is instrument work, not document work.** An
+earlier version argued the opposite from document-reading ergonomics, but the
+evidence on a case screen is six short lines and the primary job is triaging a
+queue against a clock. Warm off-white with near-black type is also the most
+recognisable generated-interface signature there is, so that palette read as
+templated regardless of its reasoning. The chamber no longer inverts — with the
+console already dark it *deepens*, and that descent is still the only transition
+in the product.
+
+**The deadline is spatial**: a depleting arc scaled to that reason code's own
+filing window, warming from verdigris through ochre to oxblood, so seven days
+half gone reads differently from twenty-one days half gone. The rail encodes the
+same thing per row — a deadline bar by proximity and a quieter amount bar — so
+twelve cases can be triaged in about a second without reading a line.
+
+**It lands on the WhatsApp refusal with one agent already failed**, not on a
+clean contest. A case where nothing fires and every agent is green demonstrates
+nothing.
+
 The **failure states were designed first**, not last. The WhatsApp refusal is the
 product thesis, so it gets the most design on the screen: the document is present,
 a published rule refuses it, and the swap that flips the outcome is shown inline.

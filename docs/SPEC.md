@@ -826,31 +826,93 @@ If you do not beat all three in rupees, you do not have a product. Showing you c
 ### 12.1 Design brief
 
 **Subject:** a dispute defense console for Indian merchants and Razorpay risk analysts.
-**Primary job:** decide one case correctly before its deadline, and understand the network behind a repeat abuser.
-**Audience:** people who read documents for a living and are accountable for money.
+**Primary job:** triage a queue of open disputes against their filing deadlines, and decide the one in front of you correctly.
+**Audience:** people accountable for money, working a queue under a clock.
 
-The vernacular of this world is **legal-forensic**, not cyber-security. Cases, exhibits, filing deadlines, verdicts. That vocabulary is not decoration — it is the vocabulary the underlying objects already have, and using any other one would make the screen lie about what it is showing.
+The vernacular of this world is **legal-forensic**, not cyber-security. Cases,
+exhibits, filing deadlines, verdicts. That vocabulary is not decoration — it is
+the vocabulary the underlying objects already have, and using any other one
+would make the screen lie about what it is showing.
 
-**Direction: the evidence binder, inside a familiar shell.** A well-lit forensic document surface, disciplined and dense — reached through a conventional dashboard chrome, with exactly one inversion, where you descend into the network chamber.
+**Direction: an instrument, not a document.**
 
-The light/dark split is an ergonomic argument, not a stylistic one. Reading a case is document work — tracking records, email threads, T&Cs — and extended document reading in daylight is better on a light surface. Exploring a ring is graph work — long sessions, spatial reasoning, depth perception — and a luminous graph on a dark field has far better figure-ground separation. Same reason a radiologist's reading room is dim but their report prints on white. Persistent chrome — the sidebar — is dark for a third reason: it is navigated by muscle memory, not read, and should recede behind the surface that is.
+This corrects an earlier version of this spec, and the correction matters
+because it drove the whole palette. That version argued for a light surface on
+document-reading ergonomics: reading a case is document work, extended reading
+in daylight is better on light, a radiologist's report prints on white. The
+premise was wrong. **The evidence on a case screen is six short lines** — a
+checklist, three scores, a rationale — and the primary job is not reading, it is
+judging twelve cases against a clock and picking the one that needs attention.
+That is instrument work, and instruments are dark.
+
+The practical consequence: warm off-white with near-black type is also the most
+recognisable generated-interface signature there is, so the earlier palette read
+as templated regardless of its reasoning. The surface is now a deep desaturated
+blue-black — not a neon SOC screen, which is the opposite failure.
+
+**Colour carries state everywhere it can**, most importantly in the queue. A
+rail of twelve visually identical rows wastes the entire state system on the one
+surface where it would do the most work.
 
 ### 12.2 Tokens
 
 ```
-Surface        #E8E6E1   ash — cool, not cream; the desk
-Paper          #F5F4F1   case card surface
-Ink            #16171C   type; near-black is for letters, not backgrounds
-Indigo         #2B3A67   structure, headers, primary actions, sidebar accent
-Verdigris      #3F7A6E   evidence sufficient / recoverable
-Ochre          #B0762A   gap — needs a human
-Oxblood        #7A2E2E   loss / accept — ledger red, deep, never alarm red
-Chamber        #0D0E12   the network view only
+Surface      #0F1116   base ground
+Raised       #171A21   panels, the case sheet
+Line         #262A33   hairlines, dividers
+Bone         #E4E1DA   primary type
+Muted        #8A8F9A   labels, secondary type
+Verdigris    #4FA88F   sufficient / contest / recoverable
+Ochre        #C9913C   gap / needs a human
+Oxblood      #C4565A   loss / accept / blocked
+Indigo       #6B7FC7   routed / informational — not a loss
+Chamber      #08090C   the network view only
 ```
 
-The sidebar ground is a near-black tint of Indigo, not a generic navy — the shell should read as this product's, not as a template's. Status colours invert to their luminous forms against it, because a #3F7A6E on near-black is unreadable; the *role* of each colour is fixed, its luminance is not.
+Indigo is a distinct state, not a shade of the others: **routed to a human is
+not a loss**, and giving it the same colour as a blocked package would tell the
+merchant something false about the case.
 
-Type: **IBM Plex Sans** for chrome and UI. **IBM Plex Mono** reserved strictly for data that must align or be copied: dispute IDs, amounts, UTRs, timestamps, hashes. Mono is a functional choice here, never a label style. **Spectral** narrows to the drafted representment narrative only (§12.4 → Phase 6) — a document serif belongs on the document, and a dashboard shell's chrome does not want one.
+**The chamber no longer inverts — it deepens.** With the console already dark,
+descending into the network drops the ground and lets the case chrome fall away,
+leaving the graph. That descent is still the one transition in the product.
+
+Type: **IBM Plex Sans** for everything the reader reads as language — labels,
+stage names, reason-code titles, badges, annotations. **IBM Plex Mono** strictly
+for values that must align or be copied: amounts, countdowns, probabilities,
+percentages, `disp_`/`pay_`/`acc_` identifiers, UTRs, timestamps, hashes. Mono
+on section headers and badges is a costume rather than a system, and wall-to-wall
+monospace is half of what makes an interface look generated. **Spectral** narrows
+to the case narrative and the drafted representment — a document serif belongs
+on the document.
+
+`font-variant-numeric: tabular-nums` is set on every numeric element. Money
+columns that wobble between rows read as amateur, and a countdown jitters
+without it.
+
+**Hierarchy is a decision, not a grid.** Four equal boxes for four unequal things
+is a default. `BIND` is the substance and takes ~60% of the width; `RESOLVE` is a
+dictionary lookup and looks like one; `SCORE` is three numbers on a single line;
+`CONSTRAIN` collapses to one line when no rule fires, because two rows reading
+NOT APPLICABLE is dead space, and dead space on a triage screen is a cost.
+
+**The deadline is spatial.** A 60px countdown is large but not urgent, so it sits
+inside a depleting arc scaled to *that reason code's own filing window* —
+seven days half gone reads differently from twenty-one days half gone, which a bare
+number cannot express. The arc warms from verdigris through ochre to oxblood as
+it closes. Time is the hero of this product and it should be felt before it is
+read.
+
+**The rail encodes urgency without reading.** Each row carries a deadline bar
+whose length is the window remaining and whose hue is proximity, plus a quieter
+bar giving the amount relative to the largest in the queue. The target is
+judging which of twelve cases need attention in about a second, with no line
+read.
+
+**The console lands on the most instructive case**, not the least: the WhatsApp
+refusal, with one agent already failed. A clean contest with nothing firing and
+five green agents demonstrates nothing, and a demo that opens on it is choosing
+to look finished over being understood.
 
 ### 12.3 The shell
 

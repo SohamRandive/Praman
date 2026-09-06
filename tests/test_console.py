@@ -234,3 +234,55 @@ def test_the_console_never_claims_the_drafting_model_exists(metrics):
     an empty summary rather than a plausible sentence."""
     src = (ROOT / "web" / "src" / "Sidebar.jsx").read_text(encoding="utf-8")
     assert "not built" in src, "the sidebar no longer states the Phase 6 gap"
+
+
+def test_the_console_commits_to_a_single_dark_instrument_palette():
+    """The light document surface was reversed: a case screen holds six short
+    lines of evidence and the job is triaging a queue against a clock, which is
+    instrument work. Warm off-white with near-black type is also the most
+    recognisable generated-interface signature there is. This guards the
+    reversal, because a stray rgba() minifies into a near-white hex and would
+    otherwise reappear unnoticed."""
+    import re
+
+    css = (ROOT / "web" / "src" / "styles.css").read_text(encoding="utf-8")
+    hexes = re.findall(r"#(?:f[0-9a-f]{5}|e[89a-f][0-9a-f]{3})\b", css, re.I)
+    assert not hexes, f"near-white grounds in the stylesheet: {set(hexes)}"
+    rgba = re.findall(r"rgba?\(\s*(2[3-5]\d)\s*,\s*(2[3-5]\d)\s*,\s*(2[3-5]\d)", css)
+    assert not rgba, f"near-white rgba in the stylesheet: {rgba}"
+    assert "--surface:  #0F1116" in css
+    assert "--ink:      #E4E1DA" in css
+
+
+def test_indigo_is_its_own_state_not_a_shade_of_loss():
+    """Routed to a human is not a loss. Giving it the colour of a blocked
+    package would tell the merchant something false about the case."""
+    css = (ROOT / "web" / "src" / "styles.css").read_text(encoding="utf-8")
+    assert "--indigo:    #6B7FC7" in css
+    assert "--oxblood:   #C4565A" in css
+
+
+def test_monospace_is_reserved_for_values():
+    """Wall-to-wall mono is a costume, not a system, and half of what makes an
+    interface look generated. Labels, stage names and badges are sans."""
+    import re
+
+    css = (ROOT / "web" / "src" / "styles.css").read_text(encoding="utf-8")
+    granted = {
+        m.strip().split("\n")[-1].strip()
+        for m in re.findall(r"([^\n{}]+)\{[^}]*var\(--mono\)[^}]*\}", css)
+    }
+    # Every selector holding monospace must be a value, an identifier, or a
+    # column of glyphs that has to align.
+    allowed = {".n, code, pre, .hash", ".dial .big", ".nums b", ".mark",
+               ".chamber .v.n", "table.adj th.n, table.adj td.n"}
+    assert granted <= allowed, f"monospace granted to a label: {granted - allowed}"
+
+
+def test_the_chamber_deepens_rather_than_inverting():
+    """With the console already dark there is nothing to invert. Descending
+    drops the ground and lets the case chrome fall away."""
+    chamber = (ROOT / "web" / "src" / "chamber" / "Chamber.jsx").read_text(encoding="utf-8")
+    assert "'#08090c'" in chamber
+    css = (ROOT / "web" / "src" / "styles.css").read_text(encoding="utf-8")
+    assert "#08090C" in css or "#08090c" in css

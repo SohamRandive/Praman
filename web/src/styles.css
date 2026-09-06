@@ -1,12 +1,18 @@
-/* Praman console.
+/* Praman console — an instrument, not a document.
 
-   SURFACE: a light document workspace inside a dark, persistent shell. Reading a
-   case is document work — records, email threads, T&Cs — and extended document
-   reading in daylight is better on a light surface. The sidebar is dark because
-   it is navigated by muscle memory rather than read, and persistent chrome
-   should recede behind the thing being read. The chamber stays dark for the
-   third reason: a luminous graph on a dark field has far better figure-ground
-   separation. Same building, three rooms, three lighting decisions.
+   This reverses an earlier direction, and the reversal is worth stating because
+   it drove the whole palette. That version put a light document workspace inside
+   a dark shell, argued from document-reading ergonomics: reading a case is
+   document work, extended reading in daylight is better on light. The premise
+   was wrong. The evidence on a case screen is six short lines — a checklist,
+   three scores, a rationale — and the primary job is not reading, it is triaging
+   a queue against a clock and finding the case that needs attention. That is
+   instrument work, and instruments are dark.
+
+   The practical half: warm off-white with near-black type is the most
+   recognisable generated-interface signature there is, so the earlier surface
+   read as templated regardless of the reasoning behind it. This ground is a deep
+   desaturated blue-black — not a neon SOC screen, which is the opposite failure.
 
    MOTION BUDGET: one transition in the product, the descent into the chamber.
    No entrance animations, no hover transitions. State changes are instant, which
@@ -15,42 +21,46 @@
    MONO DISCIPLINE: monospace is for values that must align or be copied —
    amounts, countdowns, probabilities, identifiers, hashes, timestamps. Labels,
    section names, badges and annotations are all sans. Wall-to-wall mono is a
-   costume, not a system.
+   costume, not a system, and half of what makes an interface look generated.
 
-   COLOUR: the role of each token is fixed; its luminance is not. Verdigris means
-   "recoverable" on both grounds, and #3F7A6E on near-black is unreadable, so the
-   rail carries luminous variants of the same roles rather than different roles. */
+   COLOUR carries state everywhere it can, most of all in the queue: a rail of
+   twelve visually identical rows wastes the state system on the one surface
+   where it would do the most work. Indigo is a state of its own — routed to a
+   human is NOT a loss, and giving it the colour of a blocked package would tell
+   the merchant something false. */
 
 :root {
-  --surface:  #E8E6E1;   /* ash — cool, not cream; the desk */
-  --paper:    #F5F4F1;   /* card surface */
-  --ink:      #16171C;   /* type; near-black is for letters, not backgrounds */
-  --ink-2:    #474B55;
-  --ink-3:    #6E727C;
-  --rule:     #D5D2CB;
-  --rule-2:   #E2DFD8;
+  --surface:  #0F1116;   /* base ground */
+  --paper:    #171A21;   /* raised: panels, the case sheet */
+  --ink:      #E4E1DA;   /* bone: primary type */
+  --ink-2:    #A8ADB8;
+  --ink-3:    #8A8F9A;   /* muted: labels, secondary */
+  --rule:     #262A33;
+  --rule-2:   #1E222A;
 
-  --indigo:    #2B3A67;  /* structure, headers, primary actions */
-  --verdigris: #3F7A6E;  /* evidence sufficient / recoverable */
-  --ochre:     #B0762A;  /* gap — needs a human */
-  --ochre-ink: #8A5A1B;  /* the same role at text contrast */
-  --oxblood:   #7A2E2E;  /* loss / accept — ledger red, never alarm red */
-  --olive:     #7E7F45;  /* the middle of the urgency ramp */
+  --indigo:    #6B7FC7;  /* routed / informational — not a loss */
+  --verdigris: #4FA88F;  /* sufficient / contest / recoverable */
+  --ochre:     #C9913C;  /* gap — needs a human */
+  --ochre-ink: #C9913C;  /* the same role; on this ground it needs no darkening */
+  --oxblood:   #C4565A;  /* loss / accept / blocked */
+  --olive:     #9AA06A;  /* the middle of the urgency ramp */
 
-  --wash-verd:  rgba(63, 122, 110, .10);
-  --wash-ochre: rgba(176, 118, 42, .13);
-  --wash-blood: rgba(122, 46, 46, .09);
-  --wash-ind:   rgba(43, 58, 103, .07);
+  --wash-verd:  rgba(79, 168, 143, .10);
+  --wash-ochre: rgba(201, 145, 60, .11);
+  --wash-blood: rgba(196, 86, 90, .11);
+  --wash-ind:   rgba(107, 127, 199, .11);
 
-  --rail:      #141A2B;  /* a near-black tint of indigo, not a generic navy */
-  --rail-2:    #1C2438;
-  --rail-line: #283048;
-  --rail-ink:  #C9CEDC;
-  --rail-dim:  #7C859B;
-  --verdigris-lum: #5FA894;
-  --ochre-lum:     #D0994A;
-  --oxblood-lum:   #C9686B;
-  --indigo-lum:    #8093D8;
+  /* The shell no longer contrasts with the workspace - it is the same room, one
+     step darker, so navigation still recedes behind the thing being worked on. */
+  --rail:      #0C0E13;
+  --rail-2:    #161A22;
+  --rail-line: #222630;
+  --rail-ink:  #E4E1DA;
+  --rail-dim:  #626875;
+  --verdigris-lum: #4FA88F;
+  --ochre-lum:     #C9913C;
+  --oxblood-lum:   #C4565A;
+  --indigo-lum:    #6B7FC7;
 
   --serif: 'Spectral', Georgia, 'Times New Roman', serif;
   --sans:  'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -347,7 +357,7 @@ td.amount { font-size: 13px; font-weight: 500; }
 .card-head { display: flex; align-items: baseline; gap: 9px; margin-bottom: 11px; }
 .card-n {
   font-size: 9.5px; color: var(--ink-3); border: 1px solid var(--rule);
-  padding: 0 5px; line-height: 1.6; font-family: var(--mono);
+  padding: 0 5px; line-height: 1.6;
 }
 .card-head h3 {
   font-size: 10.5px; text-transform: uppercase; letter-spacing: .14em;
@@ -448,8 +458,9 @@ td.amount { font-size: 13px; font-weight: 500; }
   padding: 4px 0; border-bottom: 1px solid var(--rule-2);
 }
 .check:last-child { border-bottom: 0; }
-/* `[ ]` is three mono characters at 0.6em - 21.6px at 12px - so the box is 23px
-   and must not wrap, or the closing bracket falls to the next line. */
+/* The checklist marks keep monospace because they are a column of glyphs that
+   must align, which is the same reason amounts do. `[ ]` is three mono
+   characters, so the box is 23px and must not wrap or the bracket falls. */
 .mark { font-family: var(--mono); font-size: 12px; width: 23px; flex: none;
         white-space: nowrap; }
 .mark.yes { color: var(--verdigris); }
@@ -484,7 +495,7 @@ td.amount { font-size: 13px; font-weight: 500; }
 .st.warned { color: var(--ochre-ink); }
 .st.unevaluated { color: var(--indigo); }
 .st.not_applicable { color: var(--ink-3); font-weight: 400; }
-.con .cid { font-size: 12.5px; flex: 1; font-family: var(--mono); }
+.con .cid { font-size: 12.5px; flex: 1; }
 .src {
   font-size: 9.5px; text-transform: uppercase; letter-spacing: .08em;
   padding: 1px 6px; border: 1px solid var(--rule); color: var(--ink-3);
@@ -544,7 +555,7 @@ button:focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; }
   border-radius: 2px; display: flex; gap: 6px; align-items: baseline;
 }
 .picker.active { background: var(--indigo); border-color: var(--indigo); color: var(--paper); }
-.picker.active .picker-id { color: rgba(245, 244, 241, .7); }
+.picker.active .picker-id { color: rgba(228, 225, 218, .72); }
 .picker:focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; }
 .picker-id { font-size: 10px; color: var(--ink-3); }
 

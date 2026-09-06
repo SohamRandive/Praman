@@ -96,6 +96,36 @@ def test_the_evidence_engine_imports_no_model_client():
         assert not (imported & model_ish), f"{p.name} imports a model client"
 
 
+def test_the_grounding_verifier_imports_no_model_client():
+    """A verifier that asks a model whether a model hallucinated is not a
+    verifier. `verifier.py` must stay pure: regex, dataclasses, and the
+    artifacts it was handed."""
+    banned = re.compile(r"^\s*(?:from|import)\s+(\w+)", re.M)
+    model_ish = {"openai", "anthropic", "transformers", "torch", "langchain", "litellm",
+                 "requests", "httpx", "urllib"}
+    verifier = ROOT / "praman" / "drafting" / "verifier.py"
+    imported = set(banned.findall(read(verifier)))
+    assert not (imported & model_ish), "the grounding verifier reaches outside itself"
+
+
+def test_the_drafting_model_holds_no_tools_and_no_network():
+    """Hard rule 2: the model drafts prose from a fixed package and nothing
+    else. No retrieval, no tools, no web access - enforced by there being no
+    client in the package at all, not by a prompt asking it nicely."""
+    banned = re.compile(r"^\s*(?:from|import)\s+(\w+)", re.M)
+    networked = {"requests", "httpx", "urllib", "socket", "aiohttp"}
+    for p in (ROOT / "praman" / "drafting").glob("*.py"):
+        imported = set(banned.findall(read(p)))
+        assert not (imported & networked), f"{p.name} can reach the network"
+
+
+def test_no_drafted_summary_can_set_submit():
+    """Hard rule 3, at the one boundary that writes an action."""
+    source = read(ROOT / "praman" / "drafting" / "draft.py")
+    assert '"draft"' in source
+    assert '"submit"' not in source
+
+
 @pytest.mark.parametrize(
     "path", ["SCOPE.md", "README.md", "docs/DECISIONS.md", "data/reason_codes.yaml"]
 )

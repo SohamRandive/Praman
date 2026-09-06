@@ -35,6 +35,7 @@ class CaseFile:
     agent_results: dict[str, AgentResult] = field(default_factory=dict)
     decision: Any = None
     package: Any = None
+    draft: Any = None          # DraftResult, contest path only
     audit: AuditLog = field(default_factory=AuditLog)
 
     @property

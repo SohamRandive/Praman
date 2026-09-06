@@ -413,29 +413,115 @@ function Network({ c, onOpenChamber }) {
 
 /* ------------------------------------------------------- 5. the narrative */
 
+/* Each sentence carries its citations, and each citation carries the value the
+   cited field actually holds. That is the grounding made legible: a reader can
+   check the sentence against the document rather than trusting that someone
+   did. Collapsed by default - the prose is the point, the citations are the
+   audit. */
+function ClaimLine({ claim }) {
+  const [open, setOpen] = React.useState(false)
+  return (
+    <li className={`claim${claim.required ? ' req' : ''}`}>
+      <button className="claim-text" onClick={() => setOpen(!open)} aria-expanded={open}>
+        <span>{claim.text}</span>
+        <span className="cite-count n">{claim.citations.length} cited</span>
+      </button>
+      {open && (
+        <ul className="cites">
+          {claim.citations.map((cite) => (
+            <li key={cite.ref}>
+              <span className="n ref">{cite.ref}</span>
+              <span className="cite-val">{cite.value || '—'}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  )
+}
+
 function Narrative({ c }) {
+  const d = c.draft
+
+  /* Nothing is drafted for an accepted dispute: there is no filing to write,
+     and generating prose nobody will submit would be the model doing work
+     purely to look busy. */
+  if (!d) {
+    return (
+      <section className="card">
+        <div className="card-head">
+          <span className="card-n">5</span>
+          <h3>Representment narrative</h3>
+          <span className="card-note">not drafted</span>
+        </div>
+        <p className="prose">
+          This dispute is being accepted, so there is no filing to draft. The
+          drafting model runs only on the contest path, and only after the decision
+          — prose cannot influence an inequality that was already evaluated.
+        </p>
+      </section>
+    )
+  }
+
   return (
     <section className="card">
       <div className="card-head">
         <span className="card-n">5</span>
         <h3>Representment narrative</h3>
-        <span className="card-note">Phase 6 — not built</span>
+        <span className="card-note">
+          drafted, then verified · {pct(d.groundedness)} grounded
+        </span>
       </div>
-      <div className="pending-block">
-        <div className="kicker">Not implemented</div>
-        <p>
-          The drafting agent and its grounding verifier are Phase 6 and do not exist
-          yet. When they do, the drafted paragraph renders here with every claim’s
-          citation resolvable to a document field on expand, and a claim that cannot
-          be resolved is stripped — if stripping drops required coverage the draft is
-          blocked rather than shortened.
-        </p>
-        <p>
-          Until then the package assembles without prose. <code>summary</code> below
-          is empty for exactly that reason, and it is left empty rather than filled
-          with a plausible sentence.
-        </p>
-      </div>
+
+      {d.blocked ? (
+        <div className="exc refused">
+          <div className="kicker">Draft blocked by the grounding verifier</div>
+          <div className="what">{d.block_reason}</div>
+          <div className="do">
+            Required coverage fell from {pct(d.coverage_before)} to{' '}
+            {pct(d.coverage_after)} once ungrounded sentences were stripped. The
+            draft is blocked and escalated rather than filed shortened — a
+            narrative that reads complete while asserting less than the package
+            promised is worse than no narrative.
+          </div>
+        </div>
+      ) : (
+        <>
+          <p className="drafted">{d.summary}</p>
+          <div className="sub-h">
+            Claims <span className="n">{d.claims.length}, every one cited</span>
+          </div>
+          <ul className="claims">
+            {d.claims.map((claim) => <ClaimLine key={claim.id} claim={claim} />)}
+          </ul>
+        </>
+      )}
+
+      {d.stripped.length > 0 && (
+        <>
+          <div className="sub-h">
+            Stripped by the verifier <span className="n">{d.stripped.length}</span>
+          </div>
+          <ul className="claims">
+            {d.stripped.map((s, i) => (
+              <li className="claim stripped" key={i}>
+                <span className="strip-reason">{s.reason.replace(/_/g, ' ')}</span>
+                <span className="strip-text">{s.text}</span>
+                <span className="strip-why">{s.detail}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      <p className="note">
+        Every sentence above resolved each of its citations to a field of an
+        artifact actually in this package, and every value in its prose appears in
+        one of those fields. Anything that did not was stripped before assembly —
+        which is why groundedness reads {pct(d.groundedness)} rather than being
+        asserted. Drafted by the <code>{d.provider}</code> provider; the model holds
+        no tools, no retrieval and no write authority, and never saw the decision.
+      </p>
 
       <div className="sub-h">The <code>contest()</code> body</div>
       <pre className="payload">
@@ -447,7 +533,7 @@ function Narrative({ c }) {
                 .filter((f) => f.present)
                 .map((f) => [f.field, [`doc_${f.field}`]]),
             ),
-            summary: '',
+            summary: c.draft && !c.draft.blocked ? c.draft.summary : '',
             action: 'draft',
           },
           null,

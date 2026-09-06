@@ -654,3 +654,47 @@ td.clear { color: var(--indigo-lum); }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* ------------------------------------------------- the drafted narrative --
+   The prose is the point and the citations are the audit, so the sentences
+   read as a document and the citations stay collapsed until asked for. */
+
+.drafted {
+  font-family: var(--serif); font-size: 15.5px; line-height: 1.65;
+  margin: 0 0 4px; max-width: 82ch;
+}
+
+.claims { list-style: none; margin: 0; padding: 0; }
+.claim { border-bottom: 1px solid var(--rule-2); padding: 2px 0; }
+.claim:last-child { border-bottom: 0; }
+.claim.req { box-shadow: inset 3px 0 0 var(--indigo); padding-left: 9px; }
+.claim-text {
+  display: flex; gap: 12px; align-items: baseline; width: 100%; text-align: left;
+  background: transparent; border: 0; cursor: pointer; padding: 6px 0;
+  font-family: var(--sans); font-size: 12.5px; color: var(--ink); line-height: 1.5;
+}
+.claim-text:hover { background: var(--surface); }
+.claim-text:focus-visible { outline: 2px solid var(--indigo); outline-offset: -2px; }
+.cite-count {
+  margin-left: auto; flex: none; font-size: 10.5px; color: var(--ink-3);
+  white-space: nowrap;
+}
+.cites { list-style: none; margin: 0 0 8px; padding: 0 0 0 9px; }
+.cites li {
+  display: flex; gap: 12px; align-items: baseline; padding: 3px 0;
+  font-size: 11.5px; border-left: 2px solid var(--rule);
+  padding-left: 10px;
+}
+.cites .ref { color: var(--indigo); }
+.cite-val { color: var(--ink-2); }
+
+.claim.stripped {
+  background: var(--wash-blood); box-shadow: inset 3px 0 0 var(--oxblood);
+  padding: 7px 0 7px 9px; display: flex; flex-direction: column; gap: 2px;
+}
+.strip-reason {
+  font-size: 9.5px; text-transform: uppercase; letter-spacing: .1em;
+  font-weight: 700; color: var(--oxblood);
+}
+.strip-text { font-size: 12.5px; text-decoration: line-through; color: var(--ink-2); }
+.strip-why { font-size: 11px; color: var(--ink-3); font-family: var(--mono); }

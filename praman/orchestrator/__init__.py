@@ -2,9 +2,10 @@
 
 from .case import CaseFile, case_id_for
 from .contract import Agent, AgentResult, deadline_budget, guarded
-from .orchestrate import adjudicate, dispatch, run_case
+from .orchestrate import adjudicate, dispatch, draft_if_contesting, run_case
 
 __all__ = [
+    "draft_if_contesting",
     "Agent",
     "AgentResult",
     "CaseFile",

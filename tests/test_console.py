@@ -126,7 +126,13 @@ def test_the_audit_chain_is_reported_intact_for_every_case(cases):
     for c in cases:
         assert c["audit_intact"], c["dispute_id"]
         assert c["audit"][0]["event"] == "dispute.created"
-        assert c["audit"][-1]["event"] == "decision.made"
+        events = [r["event"] for r in c["audit"]]
+        assert "decision.made" in events
+        # The contest path drafts after deciding, so the decision is no longer
+        # the final record - it is still the final one that decides anything.
+        assert events[-1] in ("decision.made", "draft.verified")
+        if c.get("draft") is not None:
+            assert "draft.verified" in events, "a draft left no audit trace"
 
 
 def test_no_case_carries_a_ground_truth_field_to_the_screen(cases):
@@ -229,11 +235,26 @@ def test_money_reaching_the_console_is_formatted_once_in_python(metrics):
         metrics["economics"]["policies"][1]["net"]
 
 
-def test_the_console_never_claims_the_drafting_model_exists(metrics):
-    """Phase 6 is not built. The sidebar says so, and the fixture payloads carry
-    an empty summary rather than a plausible sentence."""
-    src = (ROOT / "web" / "src" / "Sidebar.jsx").read_text(encoding="utf-8")
-    assert "not built" in src, "the sidebar no longer states the Phase 6 gap"
+def test_every_drafted_sentence_on_screen_carries_its_citations(cases):
+    """Phase 6 ships, so the claim to check is no longer "we did not build it"
+    but "nothing reaches the screen ungrounded". A sentence rendered without the
+    citations that justify it is exactly the thing the verifier exists to stop."""
+    drafted = [c for c in cases if c.get("draft") and not c["draft"]["blocked"]]
+    assert drafted, "no drafted case in the fixture set"
+    for c in drafted:
+        for claim in c["draft"]["claims"]:
+            assert claim["citations"], f"{c['dispute_id']}: uncited sentence on screen"
+            for cite in claim["citations"]:
+                assert cite["ref"] and cite["value"], f"{c['dispute_id']}: dangling citation"
+        assert c["draft"]["groundedness"] == 1.0
+
+
+def test_nothing_is_drafted_for_an_accepted_dispute(cases):
+    """Prose nobody will submit is the model doing work to look busy, and it
+    would also put a generated sentence next to a decision it never saw."""
+    for c in cases:
+        if c["recommendation"]["action"] == "accept":
+            assert c.get("draft") is None, c["dispute_id"]
 
 
 def test_the_console_commits_to_a_single_dark_instrument_palette():
@@ -275,7 +296,10 @@ def test_monospace_is_reserved_for_values():
     # Every selector holding monospace must be a value, an identifier, or a
     # column of glyphs that has to align.
     allowed = {".n, code, pre, .hash", ".dial .big", ".nums b", ".mark",
-               ".chamber .v.n", "table.adj th.n, table.adj td.n"}
+               ".chamber .v.n", "table.adj th.n, table.adj td.n",
+               # A verifier strip line is a log record of citation refs and the
+               # values that failed against them - copied, not read.
+               ".strip-why"}
     assert granted <= allowed, f"monospace granted to a label: {granted - allowed}"
 
 

@@ -21,6 +21,10 @@ function StatusDot({ status }) {
 export default function Sidebar({ view, onNavigate, cases, metrics }) {
   const health = agentHealth(cases)
   const notOk = health.filter((h) => h.status !== 'ok')
+  const drafts = cases.map((c) => c.draft).filter(Boolean)
+  const contested = cases.filter((c) => c.recommendation.action === 'contest').length
+  const drafted = drafts.filter((d) => !d.blocked).length
+  const stripped = drafts.reduce((n, d) => n + d.stripped.length, 0)
 
   return (
     <nav className="rail" aria-label="Praman console">
@@ -82,19 +86,23 @@ export default function Sidebar({ view, onNavigate, cases, metrics }) {
             <span className="ra-name">Audit chain</span>
             <span className="ra-count n">verify on demand</span>
           </li>
-          {/* Phase 6 is not built. Saying so here costs one line and is the
-              difference between a status panel and a marketing panel. */}
-          <li className="pending">
-            <StatusDot status="pending" />
+          <li className="ok">
+            <StatusDot status="ok" />
             <span className="ra-name">Drafting model</span>
-            <span className="ra-count n">not built</span>
+            <span className="ra-count n">{drafted}/{contested} contested</span>
+          </li>
+          <li className="ok">
+            <StatusDot status="ok" />
+            <span className="ra-name">Grounding verifier</span>
+            <span className="ra-count n">{stripped} stripped</span>
           </li>
         </ul>
         <p className="rail-note">
-          The representment prose and its grounding verifier are Phase 6 and are
-          not implemented. Packages assemble without prose; nothing on any screen
-          is model-written, and <code>action</code> is hard-coded to{' '}
-          <code>draft</code> in all 35 reason codes.
+          Prose is drafted only on the contest path, only after the decision, and
+          every sentence is re-checked against the artifacts it cites before it
+          reaches a payload. The model holds no tools, no retrieval and no write
+          authority, and <code>action</code> is hard-coded to <code>draft</code> in
+          all 35 reason codes.
         </p>
       </section>
 

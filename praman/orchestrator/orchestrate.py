@@ -96,10 +96,53 @@ def adjudicate(case: CaseFile, p_win: float, cost_minor: int) -> Any:
     return decision
 
 
+def draft_if_contesting(case: CaseFile, provider: Any = None) -> Any:
+    """Draft the representment, but only on the contest path.
+
+    Nothing is drafted for an accepted dispute: there is no filing to write, and
+    generating prose nobody will submit would be the model doing work purely to
+    look busy. Drafting also runs *after* the decision, never before it, so the
+    prose cannot influence what was already decided by an inequality.
+
+    Returns the `DraftResult`, or None where drafting does not apply.
+    """
+    from praman.drafting import draft_representment
+
+    decision = case.decision
+    if decision is None or decision.action != "contest":
+        return None
+
+    evidence = case.agent_results.get("evidence")
+    if evidence is None or not evidence.usable:
+        return None
+    artifacts = evidence.payload.get("artifacts") or {}
+    reqs = evidence.payload.get("requirements")
+    required = tuple(reqs.required) if reqs is not None else ()
+
+    result = draft_representment(
+        artifacts, required, {"dispute_id": case.dispute_id}, provider=provider)
+    case.draft = result
+
+    # Every strip is logged. A verifier whose catches are not recorded is a
+    # verifier nobody can audit after the fact.
+    case.audit.append(
+        "system", "draft.verified",
+        {"claims_in": len(result.claims) + len(result.stripped),
+         "provider": result.provider},
+        {"claims_out": len(result.claims),
+         "stripped": [{"reason": s.reason, "detail": s.detail} for s in result.stripped],
+         "coverage": result.coverage_after,
+         "blocked": result.blocked},
+    )
+    return result
+
+
 async def run_case(
-    case: CaseFile, agents: list[Agent], p_win: float, cost_minor: int = 35_000
+    case: CaseFile, agents: list[Agent], p_win: float, cost_minor: int = 35_000,
+    provider: Any = None,
 ) -> CaseFile:
     case.audit.append("system", "dispute.created", {"dispute_id": case.dispute_id}, None)
     await dispatch(case, agents)
     adjudicate(case, p_win, cost_minor)
+    draft_if_contesting(case, provider)
     return case

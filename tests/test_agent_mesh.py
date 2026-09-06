@@ -210,7 +210,12 @@ def test_every_agent_outcome_is_recorded_including_the_failures(wired):
         CaseFile.from_row(row),
         [Dead("network") if a.name == "network" else a for a in agents], p_win=0.72))
     events = [r.event for r in case.audit.records]
-    assert events[0] == "dispute.created" and events[-1] == "decision.made"
+    assert events[0] == "dispute.created"
+    # Since Phase 6 the contest path writes `draft.verified` after the decision,
+    # so the decision is no longer the last record - only the last one that
+    # decides anything.
+    assert "decision.made" in events
+    assert events[-1] in ("decision.made", "draft.verified")
     actors = {r.actor for r in case.audit.records}
     assert {f"agent:{n}" for n in AGENT_NAMES} <= actors, "an agent left no trace"
 

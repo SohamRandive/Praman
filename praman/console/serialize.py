@@ -91,6 +91,7 @@ def serialize(case: CaseFile, matrix: Any) -> dict[str, Any]:
 
     present = set(payload.get("fields_present", ()))
     unavailable = set(payload.get("unavailable", ()))
+    artifacts = payload.get("artifacts") or {}
 
     def field_row(field: str, required: bool) -> dict[str, Any]:
         return {
@@ -209,6 +210,46 @@ def serialize(case: CaseFile, matrix: Any) -> dict[str, Any]:
             }
             for r in sorted(case.agent_results.values(), key=lambda r: r.agent)
         ],
+
+        # The drafted narrative, with every claim's citations attached so the
+        # grounding is legible rather than asserted. `None` where drafting does
+        # not apply - an accepted dispute has no filing to write.
+        "draft": None if case.draft is None else {
+            "summary": case.draft.summary,
+            "blocked": case.draft.blocked,
+            "block_reason": case.draft.block_reason,
+            "provider": case.draft.provider,
+            "truncated": case.draft.truncated,
+            "coverage_before": case.draft.coverage_before,
+            "coverage_after": case.draft.coverage_after,
+            "groundedness": case.draft.groundedness,
+            "claims": [
+                {
+                    "id": c.claim_id,
+                    "text": c.text,
+                    "required": c.required,
+                    "field": c.api_field,
+                    "label": label_for(c.api_field) if c.api_field else "",
+                    # Field-level, so a reader can check the sentence against the
+                    # document rather than trusting that someone did.
+                    "citations": [
+                        {"ref": cit.ref, "artifact": cit.artifact_id,
+                         "field": cit.field_name,
+                         "value": str(artifacts[cit.artifact_id].fields[cit.field_name])
+                         if cit.artifact_id in artifacts
+                         and cit.field_name in artifacts[cit.artifact_id].fields else ""}
+                        for cit in c.citations
+                    ],
+                }
+                for c in case.draft.claims
+            ],
+            # Every strip is shown. A verifier whose catches are hidden is a
+            # verifier the reader has to take on trust.
+            "stripped": [
+                {"text": s.text, "reason": s.reason, "detail": s.detail}
+                for s in case.draft.stripped
+            ],
+        },
 
         # Full record bodies, so the console can RECOMPUTE the chain in the
         # browser rather than being told it is intact. A claim of tamper-evidence

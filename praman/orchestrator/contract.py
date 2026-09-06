@@ -15,7 +15,7 @@ from __future__ import annotations
 import asyncio
 import time
 from collections.abc import Callable
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any, Literal, Protocol
 
 Status = Literal["ok", "degraded", "failed", "timeout"]
@@ -25,7 +25,10 @@ Status = Literal["ok", "degraded", "failed", "timeout"]
 class AgentResult:
     agent: str
     status: Status
-    latency_ms: int
+    # Float, not int. These agents complete in tens of microseconds, and
+    # truncating to whole milliseconds reported every one of them as 0.0 - a
+    # latency table full of measured-looking zeros that measured nothing.
+    latency_ms: float
     payload: dict[str, Any] = field(default_factory=dict)
     confidence: float = 1.0
     errors: tuple[str, ...] = ()
@@ -54,8 +57,8 @@ async def guarded(
     """
     started = clock()
 
-    def elapsed() -> int:
-        return int((clock() - started) * 1000)
+    def elapsed() -> float:
+        return round((clock() - started) * 1000, 3)
 
     try:
         result = await asyncio.wait_for(agent.run(case, budget_ms), timeout=budget_ms / 1000)
@@ -71,7 +74,13 @@ async def guarded(
     if not isinstance(result, AgentResult):
         return AgentResult(agent.name, "failed", elapsed(), confidence=0.0,
                            errors=(f"returned {type(result).__name__}, not AgentResult",))
-    return result
+
+    # Latency is stamped HERE, from the outside, not taken from the agent.
+    # Every agent constructs its result with `latency_ms=0` because none of them
+    # can honestly time themselves - they would be measuring their own body and
+    # missing the await. A self-reported zero rendered in a latency table is a
+    # measured-looking number that measures nothing.
+    return replace(result, latency_ms=elapsed())
 
 
 def deadline_budget(hours_remaining: float, agents: list[str]) -> dict[str, int]:

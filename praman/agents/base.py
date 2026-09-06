@@ -12,6 +12,7 @@ import hashlib
 import random
 from typing import Any
 
+from praman.drafting import synthesize
 from praman.evidence import CaseContext, Classification
 from praman.evidence.engine import label_for
 from praman.orchestrator.contract import AgentResult
@@ -91,6 +92,18 @@ class EvidenceRetrieval:
         reqs = self.matrix.resolve(case.reason_code, context, classification)
         retrieved, unavailable = self._retrieve(row)
 
+        # Artifacts carry the field VALUES, which is what the grounding verifier
+        # resolves citations against. Only fields that actually came back get an
+        # artifact: a document the courier API would not return today cannot be
+        # cited in a draft filed today.
+        artifacts = synthesize(
+            row["dispute_id"], retrieved,
+            created_at=case.created_at,
+            payment_created_at=case.payment.get("created_at", case.created_at),
+            amount_minor=case.amount_minor,
+            channel=row.get("comms_channel", "email"),
+        )
+
         if not unavailable:
             return AgentResult(self.name, "ok", 0, {
                 "requirements": reqs,
@@ -101,6 +114,7 @@ class EvidenceRetrieval:
                 "fields_present": retrieved,
                 "unavailable": (),
                 "routing": row["routing"],
+                "artifacts": artifacts,
             })
 
         # Partial retrieval. The package is re-scored on what CAME BACK, never
@@ -135,6 +149,7 @@ class EvidenceRetrieval:
                 "fields_present": retrieved,
                 "unavailable": unavailable,
                 "routing": "blocked" if missing_required else row["routing"],
+                "artifacts": artifacts,
             },
             confidence=round(1.0 - len(unavailable) / max(len(row["evidence_fields_present"]), 1), 4),
             errors=tuple(f"{f}: source did not respond" for f in unavailable),

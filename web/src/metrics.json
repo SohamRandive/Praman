@@ -147,5 +147,63 @@
     "corpus": "data/corpus",
     "command": "make eval COST=35000",
     "split": "held-out test"
+  },
+  "system": {
+    "cases": 300,
+    "p50_decision_s": 0.0006,
+    "p95_decision_s": 0.001,
+    "max_decision_s": 0.0034,
+    "mean_decision_s": 0.0007,
+    "agents": {
+      "evidence": {
+        "p50_ms": 0.12,
+        "p95_ms": 0.16,
+        "ok": 300,
+        "degraded": 0,
+        "failed": 0,
+        "degradation_rate": 0.0
+      },
+      "merchant": {
+        "p50_ms": 0.01,
+        "p95_ms": 0.01,
+        "ok": 300,
+        "degraded": 0,
+        "failed": 0,
+        "degradation_rate": 0.0
+      },
+      "network": {
+        "p50_ms": 0.01,
+        "p95_ms": 0.01,
+        "ok": 300,
+        "degraded": 0,
+        "failed": 0,
+        "degradation_rate": 0.0
+      },
+      "policy": {
+        "p50_ms": 0.01,
+        "p95_ms": 0.01,
+        "ok": 300,
+        "degraded": 0,
+        "failed": 0,
+        "degradation_rate": 0.0
+      },
+      "precedent": {
+        "p50_ms": 0.01,
+        "p95_ms": 0.01,
+        "ok": 300,
+        "degraded": 0,
+        "failed": 0,
+        "degradation_rate": 0.0
+      }
+    },
+    "model_calls": 114,
+    "model_calls_per_case": 0.38,
+    "model_calls_per_100_disputes": 38.0,
+    "drafts_emitted": 114,
+    "drafts_blocked": 0,
+    "claims_stripped": 0,
+    "p95_target_s": 6.0,
+    "measurement": "in-process, single machine, stubbed retrieval - a floor",
+    "cost_note": "no hosted model wired; call count reported, no price quoted"
   }
 }

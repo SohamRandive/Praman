@@ -1,4 +1,4 @@
-.PHONY: help data validate verify-matrix test lint demo trace eval console console-data console-metrics chamber-data clean check-attribution
+.PHONY: help data validate verify-matrix test lint demo draft system diagram trace eval console console-data console-metrics chamber-data clean check-attribution
 
 SEED ?= 20260904
 CORPUS ?= data/corpus
@@ -38,6 +38,12 @@ chamber-data:  ## export the entity graph for the network chamber
 console:  ## build the console (needs `npm install` in web/ first)
 	cd web && npm run build
 
+system:  ## latency, per-agent degradation, model calls per case
+	python3 -m eval.system_metrics --corpus $(CORPUS)
+
+draft:  ## draft representments and show the grounding verifier working
+	python3 -m praman.drafting --corpus $(CORPUS)
+
 demo:  ## walk real corpus cases through the evidence engine
 	python3 -m praman.demo --corpus $(CORPUS)
 
@@ -63,6 +69,13 @@ check-attribution:  ## fail if any vendor or assistant attribution reached the r
 		-- ':!*.lock' ':!package-lock.json' $(GUARDS) \
 		|| (echo "FAIL: vendor name in tree"; exit 1)
 	@echo "clean: no attribution in history or tree"
+
+diagram:  ## re-export the architecture diagram from the README mermaid block
+	@mkdir -p docs/figures
+	python3 -m eval.export_diagram
+	npx -y @mermaid-js/mermaid-cli -i docs/figures/architecture.mmd \
+		-o docs/figures/architecture.png -b white -w 1600
+	@echo "docs/figures/architecture.png regenerated from the README"
 
 clean:
 	rm -rf $(CORPUS)/* eval/figures/*.png

@@ -378,3 +378,58 @@ original reasoning is still in §12.3's history and reproduced above, the
 operator-versus-reviewer distinction is the actual thing that changed, and the
 reversal is recorded here rather than absorbed silently the way the dark-surface
 change was.
+
+---
+
+## ADR-014 — The grounding verifier scans the prose, not just the citations
+
+**Context.** Phase 6 drafts a representment and verifies it. The obvious
+verifier resolves each citation: does the artifact exist, does it carry that
+field? That check is necessary and it is not sufficient.
+
+**The defect it would have missed.** A fabrication does not usually look like an
+invented document. It looks like a *real* document cited correctly, with one
+wrong value in the sentence beside it:
+
+```
+sentence: The consignment was delivered on 2026-06-10 ...
+cited:    art_shipping_pro_a257a874.delivered_at   (which holds 2025-11-23)
+```
+
+Every citation resolves. The artifact is genuinely in the package. The tracking
+reference is real. A citation-resolution verifier passes this to an issuer with
+a genuine courier record attached to a date that record does not contain.
+
+**Decision.** Three checks, not one. (1) Every citation resolves to an artifact
+and field actually present. (2) Any value the claim reports for a citation
+equals what the artifact holds. (3) **Every value-shaped token in the prose — a
+date, an amount, a reference — must appear among the cited field values.** Check
+3 is what catches the case above, and it is the reason the module exists.
+
+**The second decision: block, never shorten.** If stripping drops required-field
+coverage below 1.0, the draft is refused and escalated. Emitting the survivors
+was the tempting alternative: it reads fluent and complete. It also asserts less
+than the package promised, to a bank, on a merchant's behalf.
+
+**Cost, and it is real.** Check 3 can strip a *true* sentence whose value is
+merely formatted differently, and a verifier that strips true sentences gets
+switched off in week two — after which nothing is checked at all. So
+normalisation has to be right, and it is carried by explicit false-positive
+tests rather than hoped for. That risk is not hypothetical: the first
+implementation stripped a true sentence reading `Rs. 18,400` against an artifact
+holding `Rs 18,400`, because the word-boundary in the currency pattern never
+matched after a full stop. A guard test caught it before it shipped, which is
+the entire argument for writing the false-positive tests first.
+
+**Cost, second.** Blocking at coverage 1.0 is strict. A merchant with a
+genuinely complete package whose drafter phrased one required sentence badly
+gets no draft at all. That is the intended trade: a human writes one sentence,
+rather than a bank receives one that is wrong.
+
+**What is NOT claimed.** No hosted model is wired up. The provider that ships is
+deterministic and grounded by construction, and the fabrications in the failure
+story were injected by `FaultInjectingProvider` on purpose. **This repository
+does not claim a hallucination rate for any model, because it has not measured
+one.** The claim is that this class of error is caught and that the catch is
+reproducible. Quoting an injected rate as if it were an observed one would be
+precisely the dishonesty the rest of this log exists to prevent.

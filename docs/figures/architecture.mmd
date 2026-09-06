@@ -1,0 +1,48 @@
+flowchart TB
+    subgraph IN["1. Ingest"]
+        A1[dispute.created webhook, HMAC verified]
+        A2[PII to salted hash at boundary]
+        A1 --> A2
+    end
+
+    subgraph ORCH["2. Orchestrator"]
+        B1[Deadline budget]
+        B2[Fan out to 5 agents, async, per-agent timeout]
+    end
+
+    subgraph AGENTS["3. Agent mesh - async, degrading, audited"]
+        direction LR
+        T1[Evidence Retrieval - I/O]
+        T2[Network Forensics - graph]
+        T3[Precedent Recall - vector]
+        T4[Policy and Compliance - deterministic, no model]
+        T5[Merchant Context - SQL]
+    end
+
+    subgraph CASE["4. CaseFile - merged, typed"]
+        C1[Partial results tolerated; missing flagged, never hidden]
+    end
+
+    subgraph ADJ["5. Adjudicator - no LLM"]
+        D1[LightGBM P win]
+        D2{contest iff p > cost / amount}
+    end
+
+    E1[Accept + reason + prevention note]
+
+    subgraph CONTEST["Contest path"]
+        F1[Package Assembler - reason-code matrix]
+        F2[Drafting Agent, LLM - summary under 1000 chars]
+        F3[Grounding Verifier - every claim cites an artifact]
+        F4[Human approval, then contest draft]
+        F1 --> F2 --> F3 --> F4
+    end
+
+    G1[(Audit - hash-chained AuditRecord, every arrow writes one)]
+
+    IN --> ORCH --> AGENTS --> CASE --> ADJ
+    D2 -->|accept| E1
+    D2 -->|contest| CONTEST
+    AGENTS -.-> G1
+    ADJ -.-> G1
+    CONTEST -.-> G1

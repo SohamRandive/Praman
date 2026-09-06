@@ -138,6 +138,30 @@ That ratio, not a large multiple, is the claim: on this problem the decision rul
 outweighs the model, and most of the achievable money is available to a policy
 with no model in it at all.
 
+### Does it actually run
+
+`make system` puts real cases through the real mesh and times them.
+
+| | Measured | |
+|---|---|---|
+| p50 time to decision | **0.6ms** | in-process, one machine |
+| p95 time to decision | **0.8ms** | target < 6s (SPEC §15) |
+| Slowest agent | `evidence`, p95 **0.140ms** | the one doing I/O; the other four are under 0.01ms |
+| Evidence degradation at `drop_rate` 0.30 | **54%** | and all 100 cases still decided |
+| Drafting calls | **0.38 per dispute** | one per *contested* dispute, none for an accepted one |
+
+**Read the latency as a floor, not a prediction.** There is no network between
+these agents and their retrieval is stubbed, so a real deployment is strictly
+slower. What it establishes is that nothing here is accidentally quadratic and
+that the deadline budget has room to work.
+
+**No rupee cost is quoted for the model.** No hosted provider is wired up, so
+the price side of that multiplication is a number this repository does not have.
+Call count is the half it can measure, and it is the half reported. The
+architecture is also the cost model: the model never runs on a dispute the rule
+declined, so declining 62% of a sample is 62% of the model spend that never
+happens.
+
 ### Metrics
 
 | Metric | Value | |
@@ -316,8 +340,7 @@ context to land in.
 ledger read `web/src/metrics.json`, written by `eval/run_eval.py` on the held-out
 test split; the fixture breakdown is derived in the browser from `cases.json`.
 There is no third source, and no tile is allowed a placeholder — where a number
-is not computed yet, the shell says so in words. The sidebar states plainly that
-the drafting model is Phase 6 and not built.
+is not computed yet, the shell says so in words.
 
 Every case on screen went through the real agent mesh and the real evidence
 engine (`make console-data`). Nothing is mocked, and the twelve cases are chosen
@@ -361,6 +384,13 @@ product thesis, so it gets the most design on the screen: the document is presen
 a published rule refuses it, and the swap that flips the outcome is shown inline.
 Below-cost, routed-to-human and degraded-retrieval each get their own treatment
 rather than sharing a generic error style.
+
+The **representment narrative** renders on the contest path only. Each sentence
+expands to the citations that justify it and the value each cited field actually
+holds, so a reader can check the prose against the document rather than trusting
+that someone did. A blocked draft renders as blocked, showing what the verifier
+stripped and why. Nothing drafted appears for an accepted dispute, because there
+is no filing to write.
 
 **Verify integrity** recomputes the SHA-256 hash chain in your browser — 96
 records across the 12 cases, with a canonical form byte-identical to Python's
@@ -512,6 +542,10 @@ flowchart TB
     CONTEST -.-> G1
 ```
 
+A rendered copy for slides and video lives at
+[`docs/figures/architecture.png`](docs/figures/architecture.png), regenerated
+from the block above with `make diagram` so the two cannot drift.
+
 ### Who owns what
 
 The right-hand column is the load-bearing one. It is where the defense-only
@@ -537,6 +571,58 @@ Every arrow writes an append-only, hash-chained `AuditRecord`.
 
 ---
 
+## The failure story
+
+The track asks for one. Here is the grounding verifier refusing to file a
+sentence, captured from `make draft` rather than written for the README:
+
+```
+disp_JjLlyplWHkjG83  13.1   STRIP unsupported_value
+    sentence: The consignment was delivered on 2026-06-10 and signed for by a
+              resident at the address, against tracking reference DEL233001175.
+    why:      date_iso '2026-06-10' appears in no cited field
+              (cited: art_shipping_pro_a257a874.delivered_at,
+                      art_shipping_pro_a257a874.signed_by,
+                      art_shipping_pro_a257a874.tracking_id)
+    -> BLOCKED: Grounding stripped every sentence supporting proof of delivery.
+                The draft is blocked rather than filed without it.
+```
+
+**Read what that sentence actually was.** Its citations resolved. The artifact
+was genuinely in the package. The tracking reference was real. The signature
+line was real. The only thing wrong with it was the delivery date — the
+document says `2025-11-23` and the sentence said `2026-06-10` — and a verifier
+that checked only "do the citations resolve?" would have passed it to an issuer
+with a genuine courier record attached to a date that record does not contain.
+
+Catching it takes a third check: every value-shaped token in the prose must
+appear in one of the fields the sentence cited. That is the check that earns
+the module.
+
+**Then it blocked rather than shortened.** The stripped sentence was the only
+one supporting `shipping_proof`, which 13.1 requires, so required coverage fell
+from 1.00 to 0.00 and the draft was refused. It would have been easy to emit the
+surviving sentences instead — the result reads fluent and complete, and asserts
+less than the package promised. Blocking is the designed behaviour, and
+`test_stripping_a_required_sentence_blocks_the_draft_rather_than_shortening_it`
+holds it there.
+
+**What this is not.** No hosted model is wired up, so that fabrication was
+injected by `FaultInjectingProvider`, which deliberately emits the failure modes
+a generative drafter exhibits. **This repository does not claim a hallucination
+rate for any model, because it has not measured one.** The claim is narrower and
+is the one that matters: *this class of error is caught, and the catch is
+reproducible.* The default `TemplatedProvider` builds every sentence out of the
+field values it cites and cannot fabricate by construction — which is why the
+verifier still runs over its output, since a check that only ever runs against
+inputs you already trust is not a check.
+
+```bash
+make draft     # both providers, and every strip event
+```
+
+---
+
 ## Status
 
 | Phase | Status |
@@ -547,11 +633,18 @@ Every arrow writes an append-only, hash-chained `AuditRecord`.
 | 3 — Adjudicator + expected-cost rule | complete |
 | 4 — Network forensics | complete |
 | 5 — Agent mesh | complete |
-| 6 — Drafting + grounding verifier | **not started** |
+| 6 — Drafting + grounding verifier | complete |
 | 7a — Console: case view | complete |
 | 7b — Network chamber (3D) | complete |
 | 7c — Console shell: sidebar, case queue, audit trail | complete |
-| 8 — Evaluation + honesty pass | pending |
+| 8 — Evaluation + honesty pass | complete |
+| 9 — Submission | complete |
+
+Every phase in the build plan is closed. What is *not* built is stated in
+[Limits](#limits) below and in the drafting module's own docstrings — most
+importantly that no hosted model is wired up, so the drafting provider that
+ships is a deterministic templated one and no hallucination rate has been
+measured.
 
 ---
 
@@ -592,11 +685,17 @@ pip install -r requirements.txt
 make data           # regenerate the corpus, bit-identically, from a seed
 make validate       # corpus honesty checks
 make eval           # metrics table, three baselines, ablations, figures
+make draft          # draft representments; watch the verifier catch a fabrication
+make system         # latency, per-agent degradation, model calls per case
 make trace          # watch one case move through the evidence engine
 make demo           # real corpus cases and what the engine decided
 make test           # unit tests
 make verify-matrix  # fail if the matrix is stale against the live docs
+make diagram        # re-export the architecture diagram from this README
 ```
+
+Every number in this file comes from one of those commands on a clean checkout.
+Nothing in the results section is hand-typed.
 
 ---
 

@@ -929,7 +929,8 @@ to land in.
 3. **System status**, wired to real state. Per-agent health rolled up across the
    loaded cases from `CaseFile.agent_results` — ok / degraded / failed, counted,
    never averaged into a single green dot. Audit chain: hash-chained, verify on
-   demand. Drafting model: **states plainly that Phase 6 is not built**. A status
+   demand. Drafting model: **drafts emitted against contested, and claims
+   stripped by the verifier**. A status
    panel that only ever reports health is decoration; this one reports the gap.
 4. The **defense-only callout**, pinned at the bottom, quoting `SCOPE.md` rather
    than paraphrasing it.
@@ -964,8 +965,9 @@ to land in.
    ochre ("No signed delivery confirmation"), never generic.
 4. **Network summary** — cluster size and merchant span where one exists, with a
    link into the chamber.
-5. **Drafted narrative** — Phase 6. Space is designed for it now, and it renders
-   as an explicit not-yet rather than being hidden.
+5. **Drafted narrative** — the representment prose, each sentence expandable to
+   the citations that justify it and the value each cited field holds. A blocked
+   draft renders as blocked, with what the verifier stripped and why.
 
 **Audit Trail** — the hash-chained `AuditRecord` list as a timeline, and a
 **Verify Integrity** action that recomputes SHA-256 over every record in the
@@ -1249,8 +1251,8 @@ implied by its absence.
 | Ring precision | ≥ 0.85 | **0.938** | high floor; false rings are the worst error |
 | False-ring rate | reported separately | **0.042** | 1 of 24 innocent clusters accused |
 | Ring recall | — | 0.714 | misses concentrate in `instrument_rotation` (0.000) |
-| Claim groundedness | 1.00 after verification | pending Phase 6 | by construction |
-| p95 time-to-decision | < 6s | pending Phase 5 | |
+| Claim groundedness | 1.00 after verification | **1.00** | by construction, and measured rather than asserted |
+| p95 time-to-decision | < 6s | **0.8ms** | in-process, stubbed retrieval - a floor, not a prediction |
 
 **Dispute-level precision and recall have no single target**, because the
 expected-cost rule has no single threshold: it is `C/A` and varies per dispute.
@@ -1283,7 +1285,7 @@ clear reason beats one reporting 0.94 the panel does not believe.
 
 **Lead with the ablation, not the demo.** The panel is evaluating judgement, and
 the strongest thing this build has to say is that the deterministic rule beat the
-model by 66× — which is direct, measured evidence for the track's own criterion
+model by 4.3× — which is direct, measured evidence for the track's own criterion
 about choosing deterministic solutions where AI is unnecessary. A demo that leads
 with visuals and buries that tells them what you optimise for.
 
